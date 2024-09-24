@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Word Quest</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <header>
+        <h1>Encuentra la palabra</h1>
+    </header>
+    <main>
+        <div id="word-container">
+            <!-- Aquí aparecerán los cuadros de la palabra elegida -->
+        </div>
+        
+        <div id="turn-indicator">
+            <p>Turno del jugador: <span id="current-player"></span></p>
+        </div>
+        
+        <form id="guess-form">
+            <input type="text" id="player-guess" maxlength="7" placeholder="Ingresa tu palabra">
+            <button type="submit">Adivinar</button>
+        </form>
+        
+        <div id="feedback"></div>
+    </main>
+    <script src="app.js"></script>
+</body>
+</html>
