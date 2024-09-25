@@ -1,33 +1,26 @@
-body {
-    font-family: Arial, sans-serif;
-    text-align: center;
+#waiting-section {
+    font-size: 20px;
+    margin-top: 50px;
+    color: #555;
 }
 
-#word-container {
+#game-section {
+    margin-top: 20px;
+}
+
+.guess-result {
     display: flex;
     justify-content: center;
-    margin: 20px 0;
+    margin: 10px 0;
 }
 
 .letter-box {
     width: 50px;
     height: 50px;
     border: 2px solid #000;
-    margin: 0 5px;
+    margin: 0 2px;
     font-size: 24px;
     text-align: center;
     line-height: 50px;
     color: #fff;
-}
-
-.green {
-    background-color: green;
-}
-
-.orange {
-    background-color: orange;
-}
-
-.gray {
-    background-color: gray;
 }

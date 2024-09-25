@@ -1,17 +1,13 @@
-const palabraSecreta = "COMEDOR"; // Palabra elegida por el host
-const maxLetras = palabraSecreta.length;
+let palabraSecreta = ''; //Palabra para el juego
+let maxLetras = 0;
 let turnoActual = 0;
-const jugadores = ['Jugador 1', 'Jugador 2']; // Lista de jugadores
+const jugadores = ['Jugador 1', 'Jugador 2'];
 
-// Inicializa el tablero mostrando cuadros vacíos para cada letra
+// Inicializa el tablero
 function inicializarTablero() {
-    const wordContainer = document.getElementById('word-container');
-    wordContainer.innerHTML = '';
-    for (let i = 0; i < maxLetras; i++) {
-        const letterBox = document.createElement('div');
-        letterBox.classList.add('letter-box', 'gray');
-        wordContainer.appendChild(letterBox);
-    }
+    // Limpiar el historial de intentos de ambos jugadores
+    document.getElementById('player1-history').innerHTML = '<h3>Jugador 1</h3>';
+    document.getElementById('player2-history').innerHTML = '<h3>Jugador 2</h3>';
 }
 
 // Cambia el turno al siguiente jugador
@@ -20,32 +16,62 @@ function cambiarTurno() {
     document.getElementById('current-player').textContent = jugadores[turnoActual];
 }
 
-// Verifica la palabra ingresada por el jugador
+// Verifica la palabra ingresada por el jugador y acumula el intento en su historial
 function verificarPalabra(guess) {
-    const wordContainer = document.getElementById('word-container');
+    const guessResult = document.createElement('div');
+    guessResult.classList.add('guess-result');
+
     for (let i = 0; i < maxLetras; i++) {
-        const letterBox = wordContainer.children[i];
+        const letterBox = document.createElement('div');
+        letterBox.classList.add('letter-box');
         const letra = guess[i].toUpperCase();
         
+        // Verificar si la letra está en la posición correcta (verde)
         if (palabraSecreta[i] === letra) {
             letterBox.textContent = letra;
-            letterBox.classList.remove('gray', 'orange');
-            letterBox.classList.add('green'); // Letra y posición correcta
-        } else if (palabraSecreta.includes(letra)) {
+            letterBox.style.backgroundColor = 'green'; // Letra y posición correcta
+        } 
+        // Verificar si la letra está en la palabra pero en otra posición (anaranjado)
+        else if (palabraSecreta.includes(letra)) {
             letterBox.textContent = letra;
-            letterBox.classList.remove('gray', 'green');
-            letterBox.classList.add('orange'); // Letra correcta pero posición incorrecta
-        } else {
+            letterBox.style.backgroundColor = 'orange'; // Letra correcta pero posición incorrecta
+        } 
+        // Si la letra no está en la palabra (gris)
+        else {
             letterBox.textContent = letra;
-            letterBox.classList.remove('green', 'orange');
-            letterBox.classList.add('gray'); // Letra incorrecta
+            letterBox.style.backgroundColor = 'gray'; // Letra incorrecta
         }
+
+        guessResult.appendChild(letterBox);
     }
+
+    // Acumular el intento en el historial del jugador actual
+    const playerHistory = document.getElementById(turnoActual === 0 ? 'player1-history' : 'player2-history');
+    playerHistory.appendChild(guessResult);
 }
 
-// Inicializar el tablero y el juego
-inicializarTablero();
-document.getElementById('current-player').textContent = jugadores[turnoActual];
+// Inicializa el juego cuando el host elige una palabra
+document.getElementById('host-form').addEventListener('submit', function(event) {
+    event.preventDefault();
+    
+    palabraSecreta = document.getElementById('host-word').value.toUpperCase();
+    maxLetras = palabraSecreta.length;
+    
+    if (maxLetras === 0) {
+        alert('Por favor, introduce una palabra válida.');
+        return;
+    }
+    
+    inicializarTablero();
+
+    // Cambiar la vista del host a la vista de juego
+    document.getElementById('host-section').style.display = 'none';
+    document.getElementById('waiting-section').style.display = 'none';
+    document.getElementById('game-section').style.display = 'block';
+    document.getElementById('player-guess').disabled = false;
+
+    document.getElementById('current-player').textContent = jugadores[turnoActual];
+});
 
 // Manejador del evento submit cuando el jugador ingresa su palabra
 document.getElementById('guess-form').addEventListener('submit', function(event) {
