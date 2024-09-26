@@ -8,48 +8,21 @@
 </head>
 <body>
     <header>
-        <h1>¡Adivina la Palabra!</h1>
+        <h1>Juego de Adivinanza de Palabras</h1>
     </header>
-    
     <main>
-        <!-- Formulario para el Host -->
-        <section id="host-section">
-            <h2 id="host-message">Host: Ingrese una palabra para empezar a jugar</h2>
-            <form id="host-form">
-                <input type="text" id="host-word" placeholder="Escribe la palabra" required>
-                <button type="submit">Iniciar Juego</button>
-            </form>
-        </section>
-
-        <!-- Vista de jugadores esperando -->
-        <section id="waiting-section" style="display:none;">
-            <h2>Esperando a que el host escoja la palabra...</h2>
-        </section>
-
-        <!-- Tablero de juego -->
-        <section id="game-section" style="display:none;">
-            <div id="turn-indicator">
-                <p>Turno del jugador: <span id="current-player"></span></p>
-            </div>
-
-            <form id="guess-form">
-                <input type="text" id="player-guess" placeholder="Ingresa tu palabra" disabled>
-                <button type="submit">Adivinar</button>
-            </form>
-
-            <!-- Historial de Intentos -->
-            <div id="players-section">
-                <div class="player-history" id="player1-history">
-                    <h3>Jugador 1</h3>
-                </div>
-                
-                <div class="player-history" id="player2-history">
-                    <h3>Jugador 2</h3>
-                </div>
-            </div>
-        </section>
+        <div id="jugador-container">
+            <h2>Jugador</h2>
+            <p id="estado-juego">Cargando una palabra...</p>
+            <div id="letter-boxes" class="letter-boxes"></div>
+            <input type="text" id="input-letra" placeholder="Adivina la palabra" />
+            <button id="verificar">Verificar</button>
+            <div id="player-history" class="player-history"></div>
+        </div>
     </main>
-    
-    <script src="app.js"></script>
+    <footer>
+        <p>&copy; 2024 Juego de Adivinanza</p>
+    </footer>
+    <script src="script.js"></script>
 </body>
 </html>
