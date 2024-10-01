@@ -18,18 +18,28 @@ document.addEventListener("DOMContentLoaded", async () => {
 
     // Función para obtener palabras desde el JSON
     async function obtenerPalabras() {
-        const response = await fetch('palabras.json');
-        return await response.json();
+        try {
+            const response = await fetch('palabras.json');
+            if (!response.ok) throw new Error('Error al cargar el JSON');
+            return await response.json();
+        } catch (error) {
+            console.error('Hubo un problema con la solicitud Fetch:', error);
+            return []; // Retornar un array vacío para evitar errores posteriores
+        }
     }
 
     // Función para verificar la letra
     botonVerificar.addEventListener('click', () => {
         const letraIngresada = inputLetra.value.toUpperCase();
-        inputLetra.value = '';
+
+        // Verificar la longitud antes de limpiar el input
         if (letraIngresada.length !== longitudPalabra) {
             alert(`Por favor, ingresa una palabra de ${longitudPalabra} letras.`);
             return;
         }
+
+        // Limpiar el input solo después de la verificación
+        inputLetra.value = '';
         verificarPalabra(letraIngresada);
     });
 
@@ -37,7 +47,7 @@ document.addEventListener("DOMContentLoaded", async () => {
     function mostrarIntento(letra, colores) {
         const intentoContainer = document.createElement('div');
         intentoContainer.classList.add('letter-boxes');
-        
+
         for (let i = 0; i < letra.length; i++) {
             const box = document.createElement('div');
             box.classList.add('letter-box');
@@ -63,7 +73,7 @@ document.addEventListener("DOMContentLoaded", async () => {
         for (let i = 0; i < longitudPalabra; i++) {
             const box = document.getElementById(`box-${i}`);
             box.innerText = letra[i]; // Muestra la letra ingresada en el cuadro
-            
+
             if (letra[i] === palabraSeleccionada[i]) {
                 box.style.backgroundColor = 'green'; // Correcto y en la posición correcta
                 colores[i] = 'green'; // Guarda el color para el historial
@@ -74,14 +84,14 @@ document.addEventListener("DOMContentLoaded", async () => {
         // Luego verificamos las letras que están en la palabra pero en posición incorrecta
         for (let i = 0; i < longitudPalabra; i++) {
             const box = document.getElementById(`box-${i}`);
-            
+
             if (colores[i] !== 'green' && palabraSeleccionada.includes(letra[i]) && letrasContadas[letra[i]] > 0) {
                 box.style.backgroundColor = 'orange'; // Letra en la palabra pero en posición incorrecta
                 colores[i] = 'orange'; // Guarda el color para el historial
                 letrasContadas[letra[i]]--; // Reducimos la cuenta de letras
             }
         }
-        
+
         mostrarIntento(letra, colores); // Muestra el intento con los colores
         estadoJuego.innerText = "Adivina la siguiente palabra!";
     }

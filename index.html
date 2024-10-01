@@ -3,21 +3,21 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Juego de Adivinanza</title>
+    <title>Word Quest</title>
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
     <header>
-        <h1>Juego de Adivinanza de Palabras</h1>
+        <h1>Adivina la Palabra</h1>
     </header>
     <main>
         <div id="jugador-container">
-            <h2>Jugador</h2>
-            <p id="estado-juego">Cargando una palabra...</p>
             <div id="letter-boxes" class="letter-boxes"></div>
             <input type="text" id="input-letra" placeholder="Adivina la palabra" />
             <button id="verificar">Verificar</button>
+            <h2>Historial de intentos</h2>
             <div id="player-history" class="player-history"></div>
+            <div id="estado-juego"></div> <!-- Este es el nuevo contenedor -->
         </div>
     </main>
     <footer>
