@@ -1,0 +1,120 @@
+@import url('https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;700&display=swap');
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Open Sans', sans-serif;
+}
+
+body {
+    background: #efefef;
+}
+
+/*:::Boton-Modal:::*/
+.botones {
+    display: flex;              /* Usar flexbox para centrar el contenido */
+    justify-content: center;    /* Centrar horizontalmente el contenido */
+    align-items: center;        /* Centrar verticalmente el contenido */
+    width: 200px;               /* Ancho fijo para los botones */
+    height: 60px;               /* Altura fija para los botones */
+    margin: 20px auto;         /* Margen automático para centrar el botón en la página */
+    background-color: #fff;
+}
+
+.botones a,
+.botones label {
+    width: 100%;               /* Tomar el 100% del ancho del contenedor */
+    height: 100%;              /* Tomar el 100% de la altura del contenedor */
+    padding: 10px 15px;        /* Espaciado interno */
+    background-color: #5488a3;
+    color: #fff;
+    border-radius: 4px;
+    cursor: pointer;
+    text-decoration: none;      /* Eliminar el subrayado del enlace */
+    display: flex;              /* Usar flexbox para centrar el texto */
+    justify-content: center;    /* Centrar horizontalmente el texto */
+    align-items: center;        /* Centrar verticalmente el texto */
+    transition: all 300ms ease;
+}
+
+.botones a:hover,
+.botones label:hover {
+    background-color: #185E83;
+}
+/*:::Fin Boton-Modal:::*/
+
+/*:::Ventana Modal:::*/
+#btn-reglas {
+    display: none;
+}
+
+.container-reglas {
+    width: 100%;
+    height: 100vh;
+    position: fixed;
+    top: 0;
+    left: 0;
+    background-color: rgba(144, 148, 150, 0.8);
+    display: none;
+    justify-content: center;
+    align-items: center;
+    z-index: 100;
+}
+
+#btn-reglas:checked ~ .container-reglas {
+    display: flex;
+}
+
+.content-reglas {
+    width: 100%;
+    max-width: 400px;
+    padding: 20px;
+    background-color: #fff;
+    border-radius: 4px;
+}
+
+.content-reglas h2 {
+    margin-bottom: 15px;
+}
+
+.content-reglas p {
+    padding: 15px 0px;
+    border-top: 1px solid #dbdbdb;
+    border-bottom: 1px solid #dbdbdb;
+}
+
+.content-reglas .btn-cerrar {
+    width: 100%;
+    margin-top: 15px;
+    display: flex;
+    justify-content: flex-end;
+}
+
+.content-reglas .btn-cerrar label {
+    padding: 7px 10px;
+    background-color: #5488a3;
+    color: #fff;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: all 300ms ease;
+}
+
+.content-reglas .btn-cerrar label:hover {
+    background-color: #185E83;
+}
+
+.cerrar-reglas {
+    width: 100%;
+    height: 100vh;
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: -1;
+}
+
+@media screen and (max-width: 800px) {
+    .content-reglas {
+        width: 90%;
+    }
+}

@@ -56,7 +56,8 @@ document.addEventListener("DOMContentLoaded", async () => {
             intentoContainer.appendChild(box);
         }
 
-        playerHistory.appendChild(intentoContainer);
+        // Aquí usamos prepend en lugar de appendChild para que el nuevo intento aparezca primero
+        playerHistory.prepend(intentoContainer);
     }
 
     // Función para verificar la palabra
@@ -93,6 +94,5 @@ document.addEventListener("DOMContentLoaded", async () => {
         }
 
         mostrarIntento(letra, colores); // Muestra el intento con los colores
-        estadoJuego.innerText = "Adivina la siguiente palabra!";
     }
 });
