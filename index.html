@@ -1,28 +1,37 @@
 <!DOCTYPE html>
-<html lang="es">
+<html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="estilos.css">
     <title>Verbo Logic</title>
-    <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    <header>
-        <h1>Adivina la Palabra</h1>
-    </header>
-    <main>
-        <div id="jugador-container">
-            <div id="letter-boxes" class="letter-boxes"></div>
-            <input type="text" id="input-letra" placeholder="Adivina la palabra" />
-            <button id="verificar">Verificar</button>
-            <h2>Historial de intentos</h2>
-            <div id="player-history" class="player-history"></div>
-            <div id="estado-juego"></div> <!-- Este es el nuevo contenedor -->
+    <h1>Verbo Logic</h1>
+    <!-- Boton iniciar -->
+    <div class="botones">
+        <a href="index.html">Iniciar Juego</a>
+    </div>
+    <!-- Boton reglas -->
+    <div class="botones">
+        <label for="btn-reglas">Reglas</label>
+    </div>
+    <!-- Fin de Boton -->
+    <!-- Ventana Modal -->
+    <input type="checkbox" id="btn-reglas" />
+    <div class="container-reglas">
+        <div class="content-reglas">
+            <h2>¡Reglas!</h2>
+            <p>
+                Lorem, ipsum dolor sit amet consectetur adipisicing elit. Consequatur,
+                nostrum!
+            </p>
+            <div class="btn-cerrar">
+                <label for="btn-reglas">Cerrar</label>
+            </div>
         </div>
-    </main>
-    <footer>
-        <p>&copy; 2024 Juego de Adivinanza</p>
-    </footer>
-    <script src="script.js"></script>
+        <label for="btn-reglas" class="cerrar-reglas"></label>
+    </div>
+    <!-- Fin de Ventana Modal -->
 </body>
 </html>

@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Verbo Logic</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <header>
+        <h1>Adivina la Palabra</h1>
+    </header>
+    <main>
+        <div id="jugador-container">
+            <div id="letter-boxes" class="letter-boxes"></div>
+            <input type="text" id="input-letra" placeholder="Adivina la palabra" />
+            <button id="verificar">Verificar</button>
+            <h2>Historial de intentos</h2>
+            <div id="player-history" class="player-history"></div>
+            <div id="estado-juego"></div> <!-- Este es el nuevo contenedor -->
+        </div>
+    </main>
+    <footer>
+        <p>&copy; 2024 Juego de Adivinanza</p>
+    </footer>
+    <script src="script.js"></script>
+</body>
+</html>
