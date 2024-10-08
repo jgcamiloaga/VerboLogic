@@ -1,45 +1,46 @@
 body {
-    font-family: Arial, sans-serif;
-    background-color: #f4f4f4;
-    color: #333;
-    margin: 0;
-    padding: 20px;
+  font-family: Arial, sans-serif;
+  background-color: #f4f4f4;
+  color: #333;
+  margin: 0;
+  padding: 20px;
 }
 
-header, footer {
-    text-align: center;
-    margin: 20px 0;
+header,
+footer {
+  text-align: center;
+  margin: 20px 0;
 }
 
 .letter-boxes {
-    display: flex;
-    margin: 20px 0;
+  display: flex;
+  margin: 20px 0;
 }
 
 .letter-box {
-    width: 40px;
-    height: 40px;
-    border: 2px solid #333;
-    margin: 0 5px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 24px;
-    background-color: #FFF; /* Fondo negro por defecto */
-    color: black; /* Texto en blanco */
+  width: 40px;
+  height: 40px;
+  border: 2px solid #333;
+  margin: 0 5px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 24px;
+  background-color: #fff; /* Fondo negro por defecto */
+  color: black; /* Texto en blanco */
 }
 
 input[type="text"] {
-    padding: 10px;
-    width: 100%;
-    margin-top: 10px;
+  padding: 10px;
+  width: 100%;
+  margin-top: 10px;
 }
 
 button {
-    padding: 10px;
-    margin-top: 10px;
+  padding: 10px;
+  margin-top: 10px;
 }
 
 .player-history {
-    margin-top: 20px;
+  margin-top: 20px;
 }
