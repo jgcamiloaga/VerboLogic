@@ -1,11 +1,11 @@
 <!DOCTYPE html>
-<html lang="es">
+<html lang="en">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Verbo Logic</title>
-    <link rel="shortcut icon" href="img/icon.ico" type="imagen/x-icon">
-    <link rel="stylesheet" href="style.css" />
+    <link rel="shortcut icon" href="img/icon.ico" type="imagen/x-icon" />
+    <link rel="stylesheet" href="styles/style.css" />
   </head>
   <body>
     <header>
@@ -14,7 +14,12 @@
     <main>
       <div id="jugador-container">
         <div id="letter-boxes" class="letter-boxes"></div>
-        <input type="text" id="input-letra" placeholder="Ingresa una palabra" onkeydown="return MarcoError(event);"/>
+        <input
+          type="text"
+          id="input-letra"
+          placeholder="Ingresa una palabra"
+          onkeydown="return MarcoError(event);"
+        />
         <button id="verificar">Verificar</button>
         <h2>Historial de intentos</h2>
         <div id="player-history" class="player-history"></div>
@@ -23,8 +28,11 @@
       </div>
     </main>
     <footer>
-      <p>&copy; Creado por <a href="https://github.com/jgcamiloaga">jgcamiloaga</a></p>
+      <p>
+        &copy; Creado por
+        <a href="https://github.com/jgcamiloaga">jgcamiloaga</a>
+      </p>
     </footer>
-    <script src="script.js"></script>
+    <script src="script/script.js"></script>
   </body>
 </html>

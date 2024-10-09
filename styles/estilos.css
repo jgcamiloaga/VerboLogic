@@ -8,7 +8,7 @@
 }
 
 body {
-  background: #000; 
+  background: #000;
   color: #fff;
   display: flex;
   flex-direction: column;
@@ -19,7 +19,6 @@ body {
   text-align: center;
 }
 
-/*:::Encabezado Principal:::*/
 h1 {
   font-size: 3rem;
   margin-top: 50px;
@@ -28,11 +27,10 @@ h1 {
   text-transform: uppercase;
   letter-spacing: 5px;
   text-shadow: 0 0 20px rgba(255, 255, 255, 0.5),
-               0 0 30px rgba(0, 255, 255, 0.5);
+    0 0 30px rgba(0, 255, 255, 0.5);
   max-width: 100%;
 }
 
-/*:::Boton-Modal:::*/
 .botones {
   display: flex;
   justify-content: center;
@@ -71,7 +69,6 @@ h1 {
   box-shadow: 0px 0px 15px rgba(255, 255, 255, 0.5);
 }
 
-/*:::Ventana Modal:::*/
 #btn-reglas {
   display: none;
 }
@@ -115,8 +112,6 @@ h1 {
   text-align: left; /* Alinea el texto a la izquierda */
 }
 
-
-
 .content-reglas .btn-cerrar {
   width: 100%;
   margin-top: 15px;
@@ -148,7 +143,6 @@ h1 {
   z-index: -1;
 }
 
-/*:::Media Queries para Responsividad:::*/
 @media screen and (max-width: 800px) {
   h1 {
     font-size: 2.5rem;

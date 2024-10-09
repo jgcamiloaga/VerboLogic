@@ -1,10 +1,11 @@
 document.addEventListener("DOMContentLoaded", async () => {
-  // Obtener palabras desde el JSON y normalizarlas
   const palabras = await obtenerPalabras();
   const palabrasNormalizadas = palabras.map(normalizarPalabra);
 
-  // Seleccionar una palabra aleatoria y definir variables clave
-  const palabraSeleccionada = palabrasNormalizadas[Math.floor(Math.random() * palabrasNormalizadas.length)].toUpperCase();
+  const palabraSeleccionada =
+    palabrasNormalizadas[
+      Math.floor(Math.random() * palabrasNormalizadas.length)
+    ].toUpperCase();
   const longitudPalabra = palabraSeleccionada.length;
   const letterBoxes = document.getElementById("letter-boxes");
   const estadoJuego = document.getElementById("estado-juego");
@@ -16,17 +17,23 @@ document.addEventListener("DOMContentLoaded", async () => {
   // Crear cuadros para las letras, inicialmente con el caracter "?"
   crearCuadrosLetras();
 
+  // Limitar la cantidad de caracteres en el input según la longitud de la palabra seleccionada
+  inputLetra.maxLength = longitudPalabra;
+
+  // Evento para limitar la entrada a letras solamente y la longitud permitida
+  inputLetra.addEventListener("input", () => {
+    if (inputLetra.value.length > longitudPalabra) {
+      inputLetra.value = inputLetra.value.slice(0, longitudPalabra);
+    }
+  });
+
   // Evento para verificar la palabra ingresada
   botonVerificar.addEventListener("click", () => {
     const letraIngresada = normalizarPalabra(inputLetra.value.toUpperCase());
-
-    if (letraIngresada.length !== longitudPalabra) {
-      alert(`Por favor, ingresa una palabra de ${longitudPalabra} letras.`);
-      return;
+    if (letraIngresada.length === longitudPalabra) {
+      verificarPalabra(letraIngresada);
+      inputLetra.value = ""; // Limpiar el input después de verificar
     }
-
-    inputLetra.value = ""; // Limpiar el input después de verificar
-    verificarPalabra(letraIngresada);
   });
 
   // Función para obtener palabras desde un archivo JSON
@@ -77,7 +84,11 @@ document.addEventListener("DOMContentLoaded", async () => {
 
     // Verificar letras correctas en posiciones incorrectas
     for (let i = 0; i < longitudPalabra; i++) {
-      if (colores[i] !== "green" && palabraSeleccionada.includes(letra[i]) && letrasContadas[letra[i]] > 0) {
+      if (
+        colores[i] !== "green" &&
+        palabraSeleccionada.includes(letra[i]) &&
+        letrasContadas[letra[i]] > 0
+      ) {
         colores[i] = "orange";
         letrasContadas[letra[i]]--;
       }
@@ -88,7 +99,7 @@ document.addEventListener("DOMContentLoaded", async () => {
 
   // Función para contar la frecuencia de cada letra en una palabra
   function contarLetras(palabra) {
-    return palabra.split('').reduce((acc, char) => {
+    return palabra.split("").reduce((acc, char) => {
       acc[char] = (acc[char] || 0) + 1;
       return acc;
     }, {});
@@ -99,7 +110,7 @@ document.addEventListener("DOMContentLoaded", async () => {
     const intentoContainer = document.createElement("div");
     intentoContainer.classList.add("letter-boxes");
 
-    letra.split('').forEach((char, i) => {
+    letra.split("").forEach((char, i) => {
       const box = document.createElement("div");
       box.classList.add("letter-box");
       box.innerText = char;
@@ -111,32 +122,26 @@ document.addEventListener("DOMContentLoaded", async () => {
   }
 });
 
+// Funciones para validar solo letras
 function SoloLetras(e) {
   key = e.keyCode || e.which;
-    teclado = String.fromCharCode(key).toString();
-    letras = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ";
+  const teclado = String.fromCharCode(key);
+  const letras = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ";
+  const especiales = [8]; // Backspace
 
-    especiales = [8];
-    teclado_especial = false;
-
-    for(var i in especiales){
-        if(key == especiales[i]){
-            teclado_especial = true;
-            break;
-        }
-    }
-
-    if(letras.indexOf(teclado)== -1 && !teclado_especial){
-        return false;
-    }
+  if (letras.indexOf(teclado) === -1 && !especiales.includes(key)) {
+    return false;
+  }
+  return true;
 }
 
 function MarcoError(e) {
   const marco = document.getElementById("input-letra");
   if (!SoloLetras(e)) {
     marco.classList.add("marco-error");
+    return false; // Evita la entrada de caracteres no válidos
   } else {
     marco.classList.remove("marco-error");
+    return true; // Permite la entrada de caracteres válidos
   }
-  return SoloLetras(e);
 }

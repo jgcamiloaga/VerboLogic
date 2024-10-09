@@ -1,4 +1,3 @@
-/* :::::: Reset :::::: */
 * {
   margin: 0;
   padding: 0;
@@ -7,8 +6,8 @@
 
 body {
   font-family: Arial, sans-serif;
-  background-color: #000; /* Fondo negro */
-  color: #fff; /* Texto blanco */
+  background-color: #000;
+  color: #fff;
   margin: 0;
   padding: 20px;
   display: flex;
@@ -18,27 +17,26 @@ body {
   min-height: 100vh;
 }
 
-header, footer {
+header,
+footer {
   text-align: center;
   margin: 20px 0;
 }
 
-/* :::::: Encabezado :::::: */
 header h1 {
   font-size: 2.5rem;
   color: #fff;
-  text-shadow: 0 0 5px rgba(255, 255, 255, 0.3); /* Resalta el título */
+  text-shadow: 0 0 5px rgba(255, 255, 255, 0.3);
   margin-bottom: 20px;
 }
 
-/* :::::: Contenedor del Juego :::::: */
 #jugador-container {
   width: 100%;
   max-width: 500px;
-  background-color: #222; /* Fondo gris oscuro */
+  background-color: #222;
   padding: 20px;
   border-radius: 10px;
-  box-shadow: 0 4px 10px rgba(255, 255, 255, 0.1); /* Suaviza el contorno */
+  box-shadow: 0 4px 10px rgba(255, 255, 255, 0.1);
   text-align: center;
 }
 
@@ -51,14 +49,14 @@ header h1 {
 .letter-box {
   width: 40px;
   height: 40px;
-  border: 2px solid #fff; /* Bordes blancos */
+  border: 2px solid #fff;
   margin: 0 5px;
   display: flex;
   align-items: center;
   justify-content: center;
   font-size: 24px;
-  background-color: #000; /* Fondo negro */
-  color: #fff; /* Texto blanco */
+  background-color: #000;
+  color: #fff;
 }
 
 input[type="text"] {
@@ -66,26 +64,27 @@ input[type="text"] {
   padding: 10px;
   margin-top: 10px;
   margin-bottom: 20px;
-  border: 1px solid #555; /* Borde gris claro */
+  border: 1px solid #555;
   border-radius: 5px;
-  background-color: #000; /* Fondo negro */
-  color: #fff; /* Texto blanco */
+  background-color: #000;
+  color: #fff;
   font-size: 16px;
+  text-transform: uppercase;
 }
 
 .marco-error:focus {
-  box-shadow: 0px 0px 10px 5px rgba(255, 255, 255, 0.85); /* Sombra blanca neón */
+  box-shadow: 0px 0px 10px 5px rgba(255, 255, 255, 0.85);
   -webkit-box-shadow: 0px 0px 10px 5px rgba(255, 255, 255, 0.85);
   -moz-box-shadow: 0px 0px 10px 5px rgba(255, 255, 255, 0.85);
-  outline: 0 none; /* Elimina el borde por defecto */
+  outline: 0 none;
 }
 
 button {
   width: 100%;
   padding: 10px;
   margin-top: 10px;
-  background-color: #fff; /* Fondo blanco */
-  color: #000; /* Texto negro */
+  background-color: #fff;
+  color: #000;
   border: none;
   border-radius: 5px;
   cursor: pointer;
@@ -94,56 +93,49 @@ button {
 }
 
 button:hover {
-  background-color: #ddd; /* Fondo gris claro en hover */
+  background-color: #ddd;
 }
 
-/* :::::: Historial de Intentos :::::: */
 h2 {
   margin-top: 20px;
   margin-bottom: 20px;
   font-size: 1.5rem;
-  color: #fff; /* Texto blanco */
+  color: #fff;
 }
 
 .player-history {
   margin-top: 10px;
   padding: 10px;
-  border: 1px solid #555; /* Borde gris claro */
+  border: 1px solid #555;
   border-radius: 5px;
-  background-color: #111; /* Fondo negro más claro */
-  color: #fff; /* Texto blanco */
-  overflow-y: hidden; /* Ocultamos el scroll vertical para que no se vea */
-  transition: all 0.3s ease; /* Transición suave para cambios */
+  background-color: #111;
+  color: #fff;
+  overflow-y: hidden;
+  transition: all 0.3s ease;
 }
 
-/* :::::: Estado del Juego :::::: */
 #estado-juego {
   margin-top: 20px;
   font-size: 1.2rem;
   color: #fff;
 }
 
-/* :::::: Pie de Página :::::: */
 footer p {
   font-size: 1rem;
   color: #777;
 }
 
-footer a{
-  /*text-decoration: none;*/
+footer a {
   color: #777;
   font-size: 1rem;
   text-decoration: underline;
 }
 
-footer a:hover{
+footer a:hover {
   color: #fff;
   text-decoration: none;
 }
 
-/* :::::: Responsividad :::::: */
-
-/* Pantallas medianas (tablets) */
 @media (max-width: 768px) {
   header h1 {
     font-size: 2rem;
@@ -169,7 +161,6 @@ footer a:hover{
   }
 }
 
-/* Pantallas pequeñas (móviles) */
 @media (max-width: 480px) {
   body {
     padding: 10px;
