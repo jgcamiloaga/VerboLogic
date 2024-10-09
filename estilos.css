@@ -8,41 +8,68 @@
 }
 
 body {
-  background: #efefef;
+  background: #000; 
+  color: #fff;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  padding: 0 15px;
+  text-align: center;
+}
+
+/*:::Encabezado Principal:::*/
+h1 {
+  font-size: 3rem;
+  margin-top: 50px;
+  margin-bottom: 50px;
+  color: #fff;
+  text-transform: uppercase;
+  letter-spacing: 5px;
+  text-shadow: 0 0 20px rgba(255, 255, 255, 0.5),
+               0 0 30px rgba(0, 255, 255, 0.5);
+  max-width: 100%;
 }
 
 /*:::Boton-Modal:::*/
 .botones {
-  display: flex; /* Usar flexbox para centrar el contenido */
-  justify-content: center; /* Centrar horizontalmente el contenido */
-  align-items: center; /* Centrar verticalmente el contenido */
-  width: 200px; /* Ancho fijo para los botones */
-  height: 60px; /* Altura fija para los botones */
-  margin: 20px auto; /* Margen automático para centrar el botón en la página */
-  background-color: #fff;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  max-width: 300px;
+  height: 60px;
+  margin: 20px auto;
+  background-color: transparent;
+  border: 2px solid rgba(255, 255, 255, 0.3);
+  border-radius: 10px;
+  box-shadow: 0px 0px 10px rgba(255, 255, 255, 0.1);
+  transition: all 300ms ease;
 }
 
 .botones a,
 .botones label {
-  width: 100%; /* Tomar el 100% del ancho del contenedor */
-  height: 100%; /* Tomar el 100% de la altura del contenedor */
-  padding: 10px 15px; /* Espaciado interno */
-  background-color: #5488a3;
+  width: 100%;
+  height: 100%;
+  padding: 10px 15px;
   color: #fff;
-  border-radius: 4px;
+  background-color: rgba(255, 255, 255, 0.1);
+  border-radius: 10px;
   cursor: pointer;
-  text-decoration: none; /* Eliminar el subrayado del enlace */
-  display: flex; /* Usar flexbox para centrar el texto */
-  justify-content: center; /* Centrar horizontalmente el texto */
-  align-items: center; /* Centrar verticalmente el texto */
+  text-decoration: none;
+  display: flex;
+  justify-content: center;
+  align-items: center;
   transition: all 300ms ease;
 }
 
 .botones a:hover,
 .botones label:hover {
-  background-color: #185e83;
+  background-color: rgba(255, 255, 255, 0.3);
+  border-color: #fff;
+  box-shadow: 0px 0px 15px rgba(255, 255, 255, 0.5);
 }
-/*:::Fin Boton-Modal:::*/
 
 /*:::Ventana Modal:::*/
 #btn-reglas {
@@ -55,7 +82,7 @@ body {
   position: fixed;
   top: 0;
   left: 0;
-  background-color: rgba(144, 148, 150, 0.8);
+  background-color: rgba(0, 0, 0, 0.8);
   display: none;
   justify-content: center;
   align-items: center;
@@ -70,30 +97,36 @@ body {
   width: 100%;
   max-width: 400px;
   padding: 20px;
-  background-color: #fff;
-  border-radius: 4px;
+  background-color: #1e1e1e;
+  border-radius: 10px;
+  color: #fff;
+  box-shadow: 0px 0px 20px rgba(255, 255, 255, 0.1);
 }
 
 .content-reglas h2 {
   margin-bottom: 15px;
+  color: #fff;
 }
 
 .content-reglas p {
   padding: 15px 0px;
-  border-top: 1px solid #dbdbdb;
-  border-bottom: 1px solid #dbdbdb;
+  border-top: 1px solid #333;
+  border-bottom: 1px solid #333;
+  text-align: left; /* Alinea el texto a la izquierda */
 }
+
+
 
 .content-reglas .btn-cerrar {
   width: 100%;
   margin-top: 15px;
   display: flex;
-  justify-content: flex-end;
+  justify-content: center;
 }
 
 .content-reglas .btn-cerrar label {
   padding: 7px 10px;
-  background-color: #5488a3;
+  background-color: rgba(255, 255, 255, 0.1);
   color: #fff;
   border-radius: 4px;
   cursor: pointer;
@@ -101,7 +134,8 @@ body {
 }
 
 .content-reglas .btn-cerrar label:hover {
-  background-color: #185e83;
+  background-color: rgba(255, 255, 255, 0.3);
+  box-shadow: 0px 0px 10px rgba(255, 255, 255, 0.5);
 }
 
 .cerrar-reglas {
@@ -113,8 +147,31 @@ body {
   z-index: -1;
 }
 
+/*:::Media Queries para Responsividad:::*/
 @media screen and (max-width: 800px) {
+  h1 {
+    font-size: 2.5rem;
+    margin-top: 30px;
+    letter-spacing: 3px;
+  }
+
+  .botones {
+    width: 100%;
+    max-width: 100%;
+    height: 50px;
+  }
+
   .content-reglas {
     width: 90%;
+  }
+}
+
+@media screen and (max-width: 500px) {
+  h1 {
+    font-size: 2rem;
+  }
+
+  .botones {
+    height: 45px;
   }
 }

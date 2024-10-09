@@ -1,46 +1,199 @@
-body {
-  font-family: Arial, sans-serif;
-  background-color: #f4f4f4;
-  color: #333;
+/* :::::: Reset :::::: */
+* {
   margin: 0;
-  padding: 20px;
+  padding: 0;
+  box-sizing: border-box;
 }
 
-header,
-footer {
+body {
+  font-family: Arial, sans-serif;
+  background-color: #000; /* Fondo negro */
+  color: #fff; /* Texto blanco */
+  margin: 0;
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+}
+
+header, footer {
   text-align: center;
   margin: 20px 0;
 }
 
+/* :::::: Encabezado :::::: */
+header h1 {
+  font-size: 2.5rem;
+  color: #fff;
+  text-shadow: 0 0 5px rgba(255, 255, 255, 0.3); /* Resalta el título */
+  margin-bottom: 20px;
+}
+
+/* :::::: Contenedor del Juego :::::: */
+#jugador-container {
+  width: 100%;
+  max-width: 500px;
+  background-color: #222; /* Fondo gris oscuro */
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 0 4px 10px rgba(255, 255, 255, 0.1); /* Suaviza el contorno */
+  text-align: center;
+}
+
 .letter-boxes {
   display: flex;
+  justify-content: center;
   margin: 20px 0;
 }
 
 .letter-box {
   width: 40px;
   height: 40px;
-  border: 2px solid #333;
+  border: 2px solid #fff; /* Bordes blancos */
   margin: 0 5px;
   display: flex;
   align-items: center;
   justify-content: center;
   font-size: 24px;
-  background-color: #fff; /* Fondo negro por defecto */
-  color: black; /* Texto en blanco */
+  background-color: #000; /* Fondo negro */
+  color: #fff; /* Texto blanco */
 }
 
 input[type="text"] {
-  padding: 10px;
   width: 100%;
+  padding: 10px;
   margin-top: 10px;
+  border: 1px solid #555; /* Borde gris claro */
+  border-radius: 5px;
+  background-color: #000; /* Fondo negro */
+  color: #fff; /* Texto blanco */
+  font-size: 16px;
 }
 
 button {
+  width: 100%;
   padding: 10px;
   margin-top: 10px;
+  background-color: #fff; /* Fondo blanco */
+  color: #000; /* Texto negro */
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 16px;
+  transition: background-color 0.3s ease;
+}
+
+button:hover {
+  background-color: #ddd; /* Fondo gris claro en hover */
+}
+
+/* :::::: Historial de Intentos :::::: */
+h2 {
+  margin-top: 20px;
+  font-size: 1.5rem;
+  color: #fff; /* Texto blanco */
 }
 
 .player-history {
+  margin-top: 10px;
+  padding: 10px;
+  border: 1px solid #555; /* Borde gris claro */
+  border-radius: 5px;
+  background-color: #111; /* Fondo negro más claro */
+  color: #fff; /* Texto blanco */
+  overflow-y: hidden; /* Ocultamos el scroll vertical para que no se vea */
+  transition: all 0.3s ease; /* Transición suave para cambios */
+}
+
+/* :::::: Estado del Juego :::::: */
+#estado-juego {
   margin-top: 20px;
+  font-size: 1.2rem;
+  color: #fff;
+}
+
+/* :::::: Pie de Página :::::: */
+footer p {
+  font-size: 0.9rem;
+  color: #777;
+}
+
+/* :::::: Responsividad :::::: */
+
+/* Pantallas medianas (tablets) */
+@media (max-width: 768px) {
+  header h1 {
+    font-size: 2rem;
+  }
+
+  .letter-box {
+    width: 35px;
+    height: 35px;
+    font-size: 20px;
+  }
+
+  input[type="text"],
+  button {
+    font-size: 14px;
+  }
+
+  h2 {
+    font-size: 1.3rem;
+  }
+
+  #estado-juego {
+    font-size: 1.1rem;
+  }
+}
+
+/* Pantallas pequeñas (móviles) */
+@media (max-width: 480px) {
+  body {
+    padding: 10px;
+  }
+
+  header h1 {
+    font-size: 1.8rem;
+    margin-bottom: 15px;
+  }
+
+  #jugador-container {
+    padding: 15px;
+  }
+
+  .letter-box {
+    width: 30px;
+    height: 30px;
+    font-size: 18px;
+    margin: 0 3px;
+  }
+
+  input[type="text"] {
+    font-size: 14px;
+    padding: 8px;
+  }
+
+  button {
+    font-size: 14px;
+    padding: 8px;
+  }
+
+  h2 {
+    font-size: 1.2rem;
+  }
+
+  .player-history {
+    padding: 8px;
+    font-size: 14px;
+  }
+
+  #estado-juego {
+    font-size: 1rem;
+  }
+
+  footer p {
+    font-size: 0.8rem;
+  }
 }
