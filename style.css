@@ -65,11 +65,19 @@ input[type="text"] {
   width: 100%;
   padding: 10px;
   margin-top: 10px;
+  margin-bottom: 20px;
   border: 1px solid #555; /* Borde gris claro */
   border-radius: 5px;
   background-color: #000; /* Fondo negro */
   color: #fff; /* Texto blanco */
   font-size: 16px;
+}
+
+.marco-error:focus {
+  box-shadow: 0px 0px 10px 5px rgba(255, 255, 255, 0.85); /* Sombra blanca neón */
+  -webkit-box-shadow: 0px 0px 10px 5px rgba(255, 255, 255, 0.85);
+  -moz-box-shadow: 0px 0px 10px 5px rgba(255, 255, 255, 0.85);
+  outline: 0 none; /* Elimina el borde por defecto */
 }
 
 button {
@@ -92,6 +100,7 @@ button:hover {
 /* :::::: Historial de Intentos :::::: */
 h2 {
   margin-top: 20px;
+  margin-bottom: 20px;
   font-size: 1.5rem;
   color: #fff; /* Texto blanco */
 }
@@ -116,8 +125,20 @@ h2 {
 
 /* :::::: Pie de Página :::::: */
 footer p {
-  font-size: 0.9rem;
+  font-size: 1rem;
   color: #777;
+}
+
+footer a{
+  /*text-decoration: none;*/
+  color: #777;
+  font-size: 1rem;
+  text-decoration: underline;
+}
+
+footer a:hover{
+  color: #fff;
+  text-decoration: none;
 }
 
 /* :::::: Responsividad :::::: */

@@ -131,6 +131,7 @@ h1 {
   border-radius: 4px;
   cursor: pointer;
   transition: all 300ms ease;
+  width: 50%;
 }
 
 .content-reglas .btn-cerrar label:hover {

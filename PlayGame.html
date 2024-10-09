@@ -14,7 +14,7 @@
     <main>
       <div id="jugador-container">
         <div id="letter-boxes" class="letter-boxes"></div>
-        <input type="text" id="input-letra" placeholder="Ingresa una palabra" />
+        <input type="text" id="input-letra" placeholder="Ingresa una palabra" onkeydown="return MarcoError(event);"/>
         <button id="verificar">Verificar</button>
         <h2>Historial de intentos</h2>
         <div id="player-history" class="player-history"></div>
@@ -23,7 +23,7 @@
       </div>
     </main>
     <footer>
-      <p>&copy; 2024 Juego de Adivinanza</p>
+      <p>&copy; Creado por <a href="https://github.com/jgcamiloaga">jgcamiloaga</a></p>
     </footer>
     <script src="script.js"></script>
   </body>
