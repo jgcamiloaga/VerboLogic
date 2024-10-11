@@ -20,12 +20,9 @@ document.addEventListener("DOMContentLoaded", async () => {
   // Limitar la cantidad de caracteres en el input según la longitud de la palabra seleccionada
   inputLetra.maxLength = longitudPalabra;
 
-  // Evento para limitar la entrada a letras solamente y la longitud permitida
-  inputLetra.addEventListener("input", () => {
-    if (inputLetra.value.length > longitudPalabra) {
-      inputLetra.value = inputLetra.value.slice(0, longitudPalabra);
-    }
-  });
+  // Agregar eventos para validar la entrada
+  inputLetra.addEventListener("input", validarEntrada);
+  inputLetra.addEventListener("keydown", prevenirEntradaInvalida);
 
   // Evento para verificar la palabra ingresada
   botonVerificar.addEventListener("click", () => {
@@ -132,12 +129,9 @@ document.addEventListener("DOMContentLoaded", async () => {
 
 // Funciones para validar solo letras
 function SoloLetras(e) {
-  const teclado = e.key; // Obtiene el valor de la tecla presionada
-
-  const letras = /^[A-Za-z]+$/; // Expresión regular para letras (mayúsculas y minúsculas)
-  const especiales = ["Backspace"]; // Teclas especiales
-
-  // Validar si el carácter es una letra o una tecla especial permitida
+  const teclado = e.key;
+  const letras = /^[A-Za-z]$/;
+  const especiales = ["Backspace", "ArrowLeft", "ArrowRight", "Tab"];
   return letras.test(teclado) || especiales.includes(teclado);
 }
 
@@ -149,6 +143,21 @@ function MarcoError(e) {
   } else {
     marco.classList.remove("marco-error");
     return true; // Permite la entrada de caracteres válidos
+  }
+}
+
+function validarEntrada(e) {
+  const entrada = e.target.value;
+  const entradaValida = entrada.replace(/[^A-Za-z]/g, '').toUpperCase();
+  
+  if (entrada !== entradaValida) {
+    e.target.value = entradaValida;
+  }
+}
+
+function prevenirEntradaInvalida(e) {
+  if (!SoloLetras(e)) {
+    e.preventDefault();
   }
 }
 
