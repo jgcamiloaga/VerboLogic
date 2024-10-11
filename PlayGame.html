@@ -6,6 +6,10 @@
     <title>Verbo Logic</title>
     <link rel="shortcut icon" href="img/icon.ico" type="imagen/x-icon" />
     <link rel="stylesheet" href="styles/style.css" />
+    <script
+      src="https://kit.fontawesome.com/ce2f585956.js"
+      crossorigin="anonymous"
+    ></script>
   </head>
   <body>
     <header>
@@ -24,9 +28,22 @@
         <h2>Historial de intentos</h2>
         <div id="player-history" class="player-history"></div>
         <div id="estado-juego"></div>
-        <!-- Este es el nuevo contenedor -->
       </div>
     </main>
+    <!-- :::::: Modal :::::: -->
+    <div id="modal-ganador" class="modal">
+      <div class="modal-content">
+        <span class="close" id="cerrar-modal">&times;</span>
+        <h2>¡Felicidades!</h2>
+        <p>Has encontrado la palabra oculta</p>
+        <button onclick="window.location.href='index.html'" id="boton-inicio">
+          <i class="fa-solid fa-house"></i>
+        </button>
+        <button onclick="location.reload()" id="boton-reiniciar">
+          <i class="fa-solid fa-arrows-rotate"></i>
+        </button>
+      </div>
+    </div>
     <footer>
       <p>
         &copy; Creado por

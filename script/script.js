@@ -43,7 +43,7 @@ document.addEventListener("DOMContentLoaded", async () => {
       if (!response.ok) throw new Error("Error al cargar el JSON");
       return await response.json();
     } catch (error) {
-      console.error("Hubo un problema con la solicitud Fetch:", error);
+      console.error("Hubo un problema con la solicitud", error);
       return [];
     }
   }
@@ -68,6 +68,7 @@ document.addEventListener("DOMContentLoaded", async () => {
   function verificarPalabra(letra) {
     const colores = new Array(longitudPalabra).fill("");
     const letrasContadas = contarLetras(palabraSeleccionada);
+    let todasCorrectas = true;
 
     for (let i = 0; i < longitudPalabra; i++) {
       const box = document.getElementById(`box-${i}`);
@@ -77,8 +78,11 @@ document.addEventListener("DOMContentLoaded", async () => {
         colores[i] = "green";
         letrasContadas[letra[i]]--;
         aciertos[i] = true;
-      } else if (!aciertos[i]) {
-        box.innerText = "?";
+      } else {
+        if (!aciertos[i]) {
+          box.innerText = "?";
+        }
+        todasCorrectas = false;
       }
     }
 
@@ -94,7 +98,11 @@ document.addEventListener("DOMContentLoaded", async () => {
       }
     }
 
-    mostrarIntento(letra, colores); // Mostrar intento en el historial
+    mostrarIntento(letra, colores);
+
+    if (todasCorrectas) {
+      mostrarModal();
+    }
   }
 
   // Función para contar la frecuencia de cada letra en una palabra
@@ -124,15 +132,13 @@ document.addEventListener("DOMContentLoaded", async () => {
 
 // Funciones para validar solo letras
 function SoloLetras(e) {
-  key = e.keyCode || e.which;
-  const teclado = String.fromCharCode(key);
-  const letras = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ";
-  const especiales = [8]; // Backspace
+  const teclado = e.key; // Obtiene el valor de la tecla presionada
 
-  if (letras.indexOf(teclado) === -1 && !especiales.includes(key)) {
-    return false;
-  }
-  return true;
+  const letras = /^[A-Za-z]+$/; // Expresión regular para letras (mayúsculas y minúsculas)
+  const especiales = ["Backspace"]; // Teclas especiales
+
+  // Validar si el carácter es una letra o una tecla especial permitida
+  return letras.test(teclado) || especiales.includes(teclado);
 }
 
 function MarcoError(e) {
@@ -145,3 +151,27 @@ function MarcoError(e) {
     return true; // Permite la entrada de caracteres válidos
   }
 }
+
+// Mostrar el modal cuando se encuentra la palabra correcta
+function mostrarModal() {
+  const modal = document.getElementById("modal-ganador");
+  modal.style.display = "block";
+}
+
+// Cerrar el modal
+function cerrarModal() {
+  const modal = document.getElementById("modal-ganador");
+  modal.style.display = "none";
+}
+
+//Cerrar Modal
+document.querySelector(".close").addEventListener("click", cerrarModal);
+document.getElementById("cerrar-modal").addEventListener("click", cerrarModal);
+
+// Cerrar modal si el usuario hace clic fuera del contenido
+window.onclick = function (event) {
+  const modal = document.getElementById("modal-ganador");
+  if (event.target === modal) {
+    modal.style.display = "none";
+  }
+};
