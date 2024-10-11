@@ -16,7 +16,7 @@
       <h1>Adivina la Palabra</h1>
     </header>
     <main>
-      <div id="jugador-container">
+      <div id="jugador-container" role="main" aria-label="Juego de adivinar palabras">
         <div id="letter-boxes" class="letter-boxes"></div>
         <input
           type="text"
@@ -24,10 +24,10 @@
           placeholder="Ingresa una palabra"
           onkeydown="return MarcoError(event);"
         />
-        <button id="verificar">Verificar</button>
+        <button id="verificar" aria-label="Verificar palabra ingresada">Verificar</button>
         <h2>Historial de intentos</h2>
         <div id="player-history" class="player-history"></div>
-        <div id="estado-juego"></div>
+        <div id="estado-juego" aria-live="polite"></div>
       </div>
     </main>
     <!-- :::::: Modal :::::: -->
@@ -36,11 +36,11 @@
         <span class="close" id="cerrar-modal">&times;</span>
         <h2>¡Felicidades!</h2>
         <p>Has encontrado la palabra oculta</p>
-        <button onclick="window.location.href='index.html'" id="boton-inicio">
-          <i class="fa-solid fa-house"></i>
+        <button onclick="window.location.href='index.html'" id="boton-inicio" aria-label="Volver a la página de inicio">
+          <i class="fa-solid fa-house" aria-hidden="true"></i>
         </button>
-        <button onclick="location.reload()" id="boton-reiniciar">
-          <i class="fa-solid fa-arrows-rotate"></i>
+        <button onclick="location.reload()" id="boton-reiniciar" aria-label="Reiniciar juego">
+          <i class="fa-solid fa-arrows-rotate" aria-hidden="true"></i>
         </button>
       </div>
     </div>
