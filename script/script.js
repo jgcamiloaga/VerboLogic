@@ -148,8 +148,8 @@ function MarcoError(e) {
 
 function validarEntrada(e) {
   const entrada = e.target.value;
-  const entradaValida = entrada.replace(/[^A-Za-z]/g, '').toUpperCase();
-  
+  const entradaValida = entrada.replace(/[^A-Za-z]/g, "").toUpperCase();
+
   if (entrada !== entradaValida) {
     e.target.value = entradaValida;
   }

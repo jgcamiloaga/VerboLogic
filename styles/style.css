@@ -141,9 +141,8 @@ h2 {
   max-width: 400px;
   text-align: center;
   box-shadow: 0 4px 10px rgba(255, 255, 255, 0.2); /* Sombra suave */
-}*/
-
-.modal-content h2 {
+}
+*/ .modal-content h2 {
   font-size: 10rem;
   color: #fff;
   margin-bottom: 10px;
@@ -183,7 +182,7 @@ h2 {
   color: #bbb;
 }
 
-#cerrar-modal{
+#cerrar-modal {
   gap: 15px;
 }
 
