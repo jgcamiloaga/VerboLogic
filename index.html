@@ -1,47 +1,198 @@
 <!DOCTYPE html>
-<html lang="en">
-<head>
+<html lang="es">
+  <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Verbo Logic</title>
-    <meta name="description" content="Verbo Logic es un juego de adivinanza de palabras desafiante y divertido. Pon a prueba tu vocabulario y habilidades de deducción." />
-    <meta name="keywords" content="juego de palabras, adivinanza, vocabulario, lógica, español" />
+    <meta
+      name="description"
+      content="Verbo Logic es un juego de adivinanza de palabras desafiante y divertido. Pon a prueba tu vocabulario y habilidades de deducción."
+    />
+    <meta
+      name="keywords"
+      content="juego de palabras, adivinanza, vocabulario, lógica, español"
+    />
     <meta name="author" content="jgcamiloaga" />
-    <link rel="shortcut icon" href="img/icon.ico" type="imagen/x-icon">
-    <link rel="stylesheet" href="styles/estilos.css">
-</head>
-<body>
-    <h1 onclick="location.reload()" style="cursor: pointer;">Verbo Logic</h1>
-    <!-- Boton iniciar -->
-    <div class="botones">
-        <a href="PlayGame.html">INICIAR JUEGO</a>
-    </div>
-    <!-- Boton reglas -->
-    <div class="botones">
-        <label for="btn-reglas">VER REGLAS</label>
-    </div>
-    <!-- Fin de Boton -->
-    <!-- Ventana Modal -->
-    <input type="checkbox" id="btn-reglas" />
-    <div class="container-reglas">
-        <div class="content-reglas">
-            <h2>REGLAS</h2>
-            <p>
-                Solo se permiten letras dentro del juego.
-                <br>
-                <br>
-                Si el cuadrado es &#x1F7E9 significa que la letra está dentro de la palabra y en la posición correcta.
-                <br>
-                <br>
-                Si el cuadrado es &#x1F7E7 significa que la letra está dentro de la palabra pero en otra posición.
-            </p>
-            <div class="btn-cerrar">
-                <label for="btn-reglas">Cerrar</label>
-            </div>
-        </div>
-        <label for="btn-reglas" class="cerrar-reglas"></label>
-    </div>
-    <!-- Fin de Ventana Modal -->
+    <link rel="shortcut icon" href="img/icon.ico" type="imagen/x-icon" />
+    <link rel="stylesheet" href="styles/estilos.css" />
+  </head>
+  <body class="dark-mode">
+    <div class="container">
+      <header>
+        <h1 onclick="location.reload()" class="title">Verbo Logic</h1>
+        <p class="subtitle">El juego de palabras que desafía tu mente</p>
+      </header>
 
-</body>
+      <main>
+        <!-- Botones principales -->
+        <div class="botones-container">
+          <div class="boton">
+            <a href="PlayGame.html" class="btn-primary">
+              <span class="btn-icon">▶</span>
+              <span class="btn-text">INICIAR JUEGO</span>
+            </a>
+          </div>
+
+          <div class="boton">
+            <button id="btn-ver-reglas" class="btn-secondary">
+              <span class="btn-icon">ℹ</span>
+              <span class="btn-text">VER REGLAS</span>
+            </button>
+          </div>
+
+          <div class="boton">
+            <button id="btn-ver-estadisticas" class="btn-secondary">
+              <span class="btn-icon">📊</span>
+              <span class="btn-text">ESTADÍSTICAS</span>
+            </button>
+          </div>
+
+          <div class="boton">
+            <button id="btn-ver-ajustes" class="btn-secondary">
+              <span class="btn-icon">⚙️</span>
+              <span class="btn-text">AJUSTES</span>
+            </button>
+          </div>
+        </div>
+      </main>
+
+      <footer>
+        <p>
+          Creado por
+          <a href="https://github.com/jgcamiloaga" target="_blank"
+            >jgcamiloaga</a
+          >
+        </p>
+        <div class="tema-toggle">
+          <label for="tema-switch">Modo oscuro</label>
+          <input type="checkbox" id="tema-switch" checked />
+          <span class="slider"></span>
+        </div>
+      </footer>
+    </div>
+
+    <!-- Ventana Modal Reglas -->
+    <div id="modal-reglas" class="modal">
+      <div class="modal-content">
+        <span class="close" id="cerrar-modal-reglas">&times;</span>
+        <h2>REGLAS DEL JUEGO</h2>
+        <div class="reglas-content">
+          <div class="regla">
+            <div class="regla-icon">🔤</div>
+            <p>Solo se permiten letras dentro del juego.</p>
+          </div>
+
+          <div class="regla">
+            <div class="regla-icon">🟩</div>
+            <p>
+              Si el cuadrado es <span class="verde">verde</span>, significa que
+              la letra está dentro de la palabra y en la posición correcta.
+            </p>
+          </div>
+
+          <div class="regla">
+            <div class="regla-icon">🟧</div>
+            <p>
+              Si el cuadrado es <span class="naranja">naranja</span>, significa
+              que la letra está dentro de la palabra pero en otra posición.
+            </p>
+          </div>
+
+          <div class="regla">
+            <div class="regla-icon">⬛</div>
+            <p>
+              Si el cuadrado es <span class="gris">gris</span>, significa que la
+              letra no está en la palabra.
+            </p>
+          </div>
+
+          <div class="regla">
+            <div class="regla-icon">🎮</div>
+            <p>Tienes 6 intentos para adivinar la palabra.</p>
+          </div>
+        </div>
+        <div class="modal-buttons">
+          <button id="btn-cerrar-reglas" class="btn-cerrar">Cerrar</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Ventana Modal Estadísticas -->
+    <div id="modal-estadisticas" class="modal">
+      <div class="modal-content">
+        <span class="close" id="cerrar-modal-estadisticas">&times;</span>
+        <h2>ESTADÍSTICAS</h2>
+        <div class="stats-container">
+          <div class="stat-box">
+            <span class="stat-number" id="total-jugados">0</span>
+            <span class="stat-label">Jugados</span>
+          </div>
+          <div class="stat-box">
+            <span class="stat-number" id="total-ganados">0</span>
+            <span class="stat-label">Ganados</span>
+          </div>
+          <div class="stat-box">
+            <span class="stat-number" id="racha-actual">0</span>
+            <span class="stat-label">Racha actual</span>
+          </div>
+          <div class="stat-box">
+            <span class="stat-number" id="mejor-racha">0</span>
+            <span class="stat-label">Mejor racha</span>
+          </div>
+        </div>
+        <div class="distribution-container">
+          <h3>Distribución de intentos</h3>
+          <div class="distribution-bars" id="distribution-bars">
+            <!-- Se generará dinámicamente con JavaScript -->
+          </div>
+        </div>
+        <div class="modal-buttons">
+          <button id="btn-cerrar-estadisticas" class="btn-cerrar">
+            Cerrar
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Ventana Modal Ajustes -->
+    <div id="modal-ajustes" class="modal">
+      <div class="modal-content">
+        <span class="close" id="cerrar-modal-ajustes">&times;</span>
+        <h2>AJUSTES</h2>
+        <div class="settings-container">
+          <div class="setting-item">
+            <span class="setting-label">Dificultad</span>
+            <div class="setting-options">
+              <button class="setting-option active" data-difficulty="normal">
+                Normal
+              </button>
+              <button class="setting-option" data-difficulty="hard">
+                Difícil
+              </button>
+            </div>
+          </div>
+          <div class="setting-item">
+            <span class="setting-label">Longitud de palabras</span>
+            <div class="setting-options">
+              <button class="setting-option" data-length="4">4</button>
+              <button class="setting-option active" data-length="5">5</button>
+              <button class="setting-option" data-length="6">6</button>
+            </div>
+          </div>
+          <div class="setting-item">
+            <span class="setting-label">Sonidos</span>
+            <div class="toggle-switch">
+              <input type="checkbox" id="sound-toggle" checked />
+              <span class="toggle-slider"></span>
+            </div>
+          </div>
+        </div>
+        <div class="modal-buttons">
+          <button id="btn-cerrar-ajustes" class="btn-cerrar">Cerrar</button>
+        </div>
+      </div>
+    </div>
+
+    <script src="script/main.js"></script>
+  </body>
 </html>
