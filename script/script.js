@@ -48,7 +48,6 @@ document.addEventListener("DOMContentLoaded", async () => {
     cerrarModalVictoria: document.getElementById("cerrar-modal"),
     cerrarModalDerrota: document.getElementById("cerrar-modal-derrota"),
     cerrarModalAyuda: document.getElementById("cerrar-modal-ayuda"),
-    temaSwitch: document.getElementById("tema-switch"),
   };
 
   // Inicializar juego
@@ -91,9 +90,6 @@ document.addEventListener("DOMContentLoaded", async () => {
 
     // Configurar eventos
     setupEventListeners();
-
-    // Cargar tema guardado
-    loadSavedTheme();
   }
 
   // Función para obtener palabras desde un archivo JSON
@@ -255,9 +251,6 @@ document.addEventListener("DOMContentLoaded", async () => {
 
     // Evento para compartir resultado
     elements.btnCompartir.addEventListener("click", compartirResultado);
-
-    // Evento para cambio de tema
-    elements.temaSwitch.addEventListener("change", toggleTheme);
   }
 
   // Manejar pulsación de tecla virtual
@@ -547,7 +540,7 @@ document.addEventListener("DOMContentLoaded", async () => {
 
   // Mostrar estadísticas
   function mostrarEstadisticas() {
-    window.location.href = "index.html#btn-estadisticas";
+    window.location.href = "index.html#btn-ver-estadisticas";
   }
 
   // Compartir resultado
@@ -694,33 +687,5 @@ document.addEventListener("DOMContentLoaded", async () => {
       .padStart(2, "0");
     const segs = (segundos % 60).toString().padStart(2, "0");
     return `${minutos}:${segs}`;
-  }
-
-  // Cambiar tema claro/oscuro
-  function toggleTheme() {
-    const isDarkMode = elements.temaSwitch.checked;
-
-    if (isDarkMode) {
-      document.body.classList.add("dark-mode");
-      document.documentElement.style.setProperty("--bg-dark", "#121212");
-      document.documentElement.style.setProperty("--text-light", "#ffffff");
-    } else {
-      document.body.classList.remove("dark-mode");
-      document.documentElement.style.setProperty("--bg-dark", "#f5f5f5");
-      document.documentElement.style.setProperty("--text-light", "#333333");
-    }
-
-    // Guardar preferencia
-    localStorage.setItem("verboLogicTheme", isDarkMode ? "dark" : "light");
-  }
-
-  // Cargar tema guardado
-  function loadSavedTheme() {
-    const savedTheme = localStorage.getItem("verboLogicTheme") || "dark";
-
-    if (savedTheme === "light") {
-      elements.temaSwitch.checked = false;
-      toggleTheme();
-    }
   }
 });
