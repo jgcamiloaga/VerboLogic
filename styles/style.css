@@ -31,14 +31,17 @@
 }
 
 body {
-  background: var(--bg-dark);
-  color: var(--text-light);
   min-height: 100vh;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
   transition: var(--transition);
+}
+
+body.dark-mode {
+  background-color: var(--bg-dark);
+  color: var(--text-light);
 }
 
 .game-container {
@@ -326,48 +329,6 @@ footer a:hover {
   color: var(--accent-color);
 }
 
-.tema-toggle {
-  position: relative;
-  width: 50px;
-  height: 24px;
-}
-
-.tema-toggle input {
-  display: none;
-}
-
-.slider {
-  position: absolute;
-  cursor: pointer;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  background-color: rgba(255, 255, 255, 0.2);
-  border-radius: 12px;
-  transition: var(--transition);
-}
-
-.slider:before {
-  position: absolute;
-  content: "";
-  height: 18px;
-  width: 18px;
-  left: 3px;
-  bottom: 3px;
-  background-color: white;
-  border-radius: 50%;
-  transition: var(--transition);
-}
-
-input:checked + .slider {
-  background-color: var(--primary-color);
-}
-
-input:checked + .slider:before {
-  transform: translateX(26px);
-}
-
 /* Modal */
 .modal {
   display: none;
@@ -644,59 +605,4 @@ input:checked + .slider:before {
     padding: 0.7rem 1rem;
     font-size: 0.9rem;
   }
-}
-
-/* Añadir estas reglas al final del archivo para corregir el comportamiento del tema */
-
-/* Modo claro */
-body.dark-mode {
-  background: var(--bg-dark);
-  color: var(--text-light);
-}
-
-body:not(.dark-mode) {
-  background: var(--bg-light);
-  color: var(--text-dark);
-}
-
-body:not(.dark-mode) header {
-  border-bottom: 1px solid rgba(0, 0, 0, 0.1);
-}
-
-body:not(.dark-mode) header button {
-  color: var(--text-dark);
-}
-
-body:not(.dark-mode) .letter-box {
-  border-color: #ccc;
-}
-
-body:not(.dark-mode) #input-letra {
-  border: 1px solid rgba(0, 0, 0, 0.2);
-  background-color: rgba(0, 0, 0, 0.05);
-  color: var(--text-dark);
-}
-
-body:not(.dark-mode) .key {
-  background-color: rgba(0, 0, 0, 0.1);
-  color: var(--text-dark);
-}
-
-body:not(.dark-mode) footer {
-  border-top: 1px solid rgba(0, 0, 0, 0.1);
-}
-
-body:not(.dark-mode) .modal-content {
-  background-color: var(--bg-light);
-  color: var(--text-dark);
-}
-
-body:not(.dark-mode) .close {
-  color: var(--text-dark);
-}
-
-body:not(.dark-mode) #btn-inicio,
-body:not(.dark-mode) #btn-inicio-derrota {
-  background-color: rgba(0, 0, 0, 0.1);
-  color: var(--text-dark);
 }
