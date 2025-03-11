@@ -5,9 +5,6 @@ document.addEventListener("DOMContentLoaded", () => {
   // Configurar modales
   setupModals();
 
-  // Manejar cambio de tema
-  setupThemeToggle();
-
   // Configurar opciones de ajustes
   setupSettingsOptions();
 });
@@ -34,19 +31,19 @@ function initStats() {
     const percentage = maxValue > 0 ? (count / maxValue) * 100 : 0;
 
     const barHtml = `
-              <div class="distribution-bar">
-                  <div class="bar-label">${i}</div>
-                  <div class="bar-container">
-                      <div class="bar-fill" style="width: ${percentage}%">
-                          ${
-                            count > 0
-                              ? `<span class="bar-value">${count}</span>`
-                              : ""
-                          }
-                      </div>
-                  </div>
-              </div>
-          `;
+            <div class="distribution-bar">
+                <div class="bar-label">${i}</div>
+                <div class="bar-container">
+                    <div class="bar-fill" style="width: ${percentage}%">
+                        ${
+                          count > 0
+                            ? `<span class="bar-value">${count}</span>`
+                            : ""
+                        }
+                    </div>
+                </div>
+            </div>
+        `;
 
     distributionBars.innerHTML += barHtml;
   }
@@ -155,32 +152,6 @@ function setupModals() {
     }
     if (event.target === modalAjustes) {
       modalAjustes.classList.remove("show");
-    }
-  });
-}
-
-// Configurar toggle de tema
-function setupThemeToggle() {
-  const temaSwitch = document.getElementById("tema-switch");
-
-  // Cargar tema guardado
-  const savedTheme = localStorage.getItem("verboLogicTheme") || "dark";
-  if (savedTheme === "light") {
-    document.body.classList.remove("dark-mode");
-    temaSwitch.checked = false;
-  } else {
-    document.body.classList.add("dark-mode");
-    temaSwitch.checked = true;
-  }
-
-  // Manejar cambio de tema
-  temaSwitch.addEventListener("change", () => {
-    if (temaSwitch.checked) {
-      document.body.classList.add("dark-mode");
-      localStorage.setItem("verboLogicTheme", "dark");
-    } else {
-      document.body.classList.remove("dark-mode");
-      localStorage.setItem("verboLogicTheme", "light");
     }
   });
 }
