@@ -32,6 +32,8 @@ document.addEventListener("DOMContentLoaded", async () => {
     modalVictoria: document.getElementById("modal-victoria"),
     modalDerrota: document.getElementById("modal-derrota"),
     modalAyuda: document.getElementById("modal-ayuda"),
+    modalEstadisticas: document.getElementById("modal-estadisticas"),
+    modalAjustes: document.getElementById("modal-ajustes"),
     palabraCorrectaVictoria: document.getElementById("palabra-correcta"),
     palabraCorrectaDerrota: document.getElementById("palabra-correcta-derrota"),
     intentosUsados: document.getElementById("intentos-usados"),
@@ -48,10 +50,48 @@ document.addEventListener("DOMContentLoaded", async () => {
     cerrarModalVictoria: document.getElementById("cerrar-modal"),
     cerrarModalDerrota: document.getElementById("cerrar-modal-derrota"),
     cerrarModalAyuda: document.getElementById("cerrar-modal-ayuda"),
+    cerrarModalEstadisticas: document.getElementById(
+      "cerrar-modal-estadisticas"
+    ),
+    cerrarModalAjustes: document.getElementById("cerrar-modal-ajustes"),
+    btnCerrarEstadisticas: document.getElementById("btn-cerrar-estadisticas"),
+    btnCerrarAjustes: document.getElementById("btn-cerrar-ajustes"),
+    temaSwitch: document.getElementById("tema-switch"),
   };
 
   // Inicializar juego
   await initGame();
+
+  // Add event listeners for the new modals
+  if (elements.cerrarModalEstadisticas) {
+    elements.cerrarModalEstadisticas.addEventListener("click", () =>
+      ocultarModal(elements.modalEstadisticas)
+    );
+  }
+
+  if (elements.btnCerrarEstadisticas) {
+    elements.btnCerrarEstadisticas.addEventListener("click", () =>
+      ocultarModal(elements.modalEstadisticas)
+    );
+  }
+
+  if (elements.cerrarModalAjustes) {
+    elements.cerrarModalAjustes.addEventListener("click", () =>
+      ocultarModal(elements.modalAjustes)
+    );
+  }
+
+  if (elements.btnCerrarAjustes) {
+    elements.btnCerrarAjustes.addEventListener("click", () =>
+      ocultarModal(elements.modalAjustes)
+    );
+  }
+
+  // Initialize stats for the statistics modal
+  initStats();
+
+  // Setup settings options
+  setupSettingsOptions();
 
   // Función para inicializar el juego
   async function initGame() {
@@ -214,18 +254,19 @@ document.addEventListener("DOMContentLoaded", async () => {
       }
     });
 
-    // Eventos para botones de navegación
+    // Eventos para botones de navegación - Fix the Statistics and Settings buttons
     elements.btnHome.addEventListener(
       "click",
       () => (window.location.href = "index.html")
     );
-    elements.btnStats.addEventListener("click", mostrarEstadisticas);
+    elements.btnStats.addEventListener("click", () =>
+      mostrarModal(document.getElementById("modal-estadisticas"))
+    );
     elements.btnHelp.addEventListener("click", () =>
       mostrarModal(elements.modalAyuda)
     );
-    elements.btnSettings.addEventListener(
-      "click",
-      () => (window.location.href = "index.html#btn-ajustes")
+    elements.btnSettings.addEventListener("click", () =>
+      mostrarModal(document.getElementById("modal-ajustes"))
     );
 
     // Eventos para modales
@@ -540,7 +581,7 @@ document.addEventListener("DOMContentLoaded", async () => {
 
   // Mostrar estadísticas
   function mostrarEstadisticas() {
-    window.location.href = "index.html#btn-ver-estadisticas";
+    window.location.href = "index.html#btn-estadisticas";
   }
 
   // Compartir resultado
@@ -688,4 +729,139 @@ document.addEventListener("DOMContentLoaded", async () => {
     const segs = (segundos % 60).toString().padStart(2, "0");
     return `${minutos}:${segs}`;
   }
+
+  // Obtener estadísticas del localStorage
+  function getStatsData() {
+    const defaultStats = {
+      totalJugados: 0,
+      totalGanados: 0,
+      rachaActual: 0,
+      mejorRacha: 0,
+      distribucion: {},
+    };
+
+    const savedStats = localStorage.getItem("verboLogicStats");
+    return savedStats ? JSON.parse(savedStats) : defaultStats;
+  }
 });
+
+// Add the initStats function from main.js
+function initStats() {
+  const stats = getStatsData();
+
+  const totalJugados = document.getElementById("total-jugados");
+  const totalGanados = document.getElementById("total-ganados");
+  const rachaActual = document.getElementById("racha-actual");
+  const mejorRacha = document.getElementById("mejor-racha");
+
+  if (totalJugados) totalJugados.textContent = stats.totalJugados;
+  if (totalGanados) totalGanados.textContent = stats.totalGanados;
+  if (rachaActual) rachaActual.textContent = stats.rachaActual;
+  if (mejorRacha) mejorRacha.textContent = stats.mejorRacha;
+
+  // Generar gráfico de distribución
+  const distributionBars = document.getElementById("distribution-bars");
+  if (!distributionBars) return;
+
+  distributionBars.innerHTML = "";
+
+  // Encontrar el valor máximo para escalar las barras
+  const values = Object.values(stats.distribucion);
+  const maxValue = values.length > 0 ? Math.max(...values) : 1;
+
+  for (let i = 1; i <= 6; i++) {
+    const count = stats.distribucion[i] || 0;
+    const percentage = maxValue > 0 ? (count / maxValue) * 100 : 0;
+
+    const barHtml = `
+            <div class="distribution-bar">
+                <div class="bar-label">${i}</div>
+                <div class="bar-container">
+                    <div class="bar-fill" style="width: ${percentage}%">
+                        ${
+                          count > 0
+                            ? `<span class="bar-value">${count}</span>`
+                            : ""
+                        }
+                    </div>
+                </div>
+            </div>
+        `;
+
+    distributionBars.innerHTML += barHtml;
+  }
+
+  // Animar las barras después de un breve retraso
+  setTimeout(() => {
+    const bars = document.querySelectorAll(".bar-fill");
+    bars.forEach((bar) => {
+      const width = bar.style.width;
+      bar.style.width = "0%";
+      setTimeout(() => {
+        bar.style.width = width;
+      }, 50);
+    });
+  }, 100);
+}
+
+// Add the setupSettingsOptions function from main.js
+function setupSettingsOptions() {
+  // Dificultad
+  const difficultyOptions = document.querySelectorAll("[data-difficulty]");
+  difficultyOptions.forEach((option) => {
+    option.addEventListener("click", () => {
+      difficultyOptions.forEach((opt) => opt.classList.remove("active"));
+      option.classList.add("active");
+      localStorage.setItem("verboLogicDifficulty", option.dataset.difficulty);
+    });
+  });
+
+  // Longitud de palabras
+  const lengthOptions = document.querySelectorAll("[data-length]");
+  lengthOptions.forEach((option) => {
+    option.addEventListener("click", () => {
+      lengthOptions.forEach((opt) => opt.classList.remove("active"));
+      option.classList.add("active");
+      localStorage.setItem("verboLogicWordLength", option.dataset.length);
+    });
+  });
+
+  // Sonidos
+  const soundToggle = document.getElementById("sound-toggle");
+  if (soundToggle) {
+    soundToggle.checked = localStorage.getItem("verboLogicSound") !== "off";
+    soundToggle.addEventListener("change", () => {
+      localStorage.setItem(
+        "verboLogicSound",
+        soundToggle.checked ? "on" : "off"
+      );
+    });
+  }
+
+  // Cargar configuraciones guardadas
+  loadSavedSettings();
+}
+
+// Add the loadSavedSettings function from main.js
+function loadSavedSettings() {
+  const savedDifficulty =
+    localStorage.getItem("verboLogicDifficulty") || "normal";
+  const difficultyOption = document.querySelector(
+    `[data-difficulty="${savedDifficulty}"]`
+  );
+  if (difficultyOption) {
+    document
+      .querySelectorAll("[data-difficulty]")
+      .forEach((opt) => opt.classList.remove("active"));
+    difficultyOption.classList.add("active");
+  }
+
+  const savedLength = localStorage.getItem("verboLogicWordLength") || "5";
+  const lengthOption = document.querySelector(`[data-length="${savedLength}"]`);
+  if (lengthOption) {
+    document
+      .querySelectorAll("[data-length]")
+      .forEach((opt) => opt.classList.remove("active"));
+    lengthOption.classList.add("active");
+  }
+}
