@@ -30,18 +30,16 @@
   font-family: "Poppins", sans-serif;
 }
 
+/* Set dark mode as default and remove theme toggle */
 body {
+  background: var(--bg-dark);
+  color: var(--text-light);
   min-height: 100vh;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
   transition: var(--transition);
-}
-
-body.dark-mode {
-  background-color: var(--bg-dark);
-  color: var(--text-light);
 }
 
 .game-container {
@@ -328,6 +326,8 @@ footer a {
 footer a:hover {
   color: var(--accent-color);
 }
+
+/* Remove the tema-toggle styles and the body.dark-mode and body:not(.dark-mode) selectors */
 
 /* Modal */
 .modal {
