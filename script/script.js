@@ -56,6 +56,8 @@ document.addEventListener("DOMContentLoaded", async () => {
     cerrarModalAjustes: document.getElementById("cerrar-modal-ajustes"),
     btnCerrarEstadisticas: document.getElementById("btn-cerrar-estadisticas"),
     btnCerrarAjustes: document.getElementById("btn-cerrar-ajustes"),
+    temaSwitch: document.getElementById("tema-switch"),
+    soundToggle: document.getElementById("sound-toggle"),
   };
 
   // Forzar modo oscuro al cargar la página
@@ -66,6 +68,9 @@ document.addEventListener("DOMContentLoaded", async () => {
 
   // Inicializar estadísticas para el modal
   initStats();
+
+  // Cargar configuraciones guardadas
+  loadSavedSettings();
 
   // Función para inicializar el juego
   async function initGame() {
@@ -249,9 +254,10 @@ document.addEventListener("DOMContentLoaded", async () => {
     }
 
     if (elements.btnSettings) {
-      elements.btnSettings.addEventListener("click", () =>
-        mostrarModal(elements.modalAjustes)
-      );
+      elements.btnSettings.addEventListener("click", () => {
+        loadSavedSettings(); // Cargar configuraciones actuales
+        mostrarModal(elements.modalAjustes);
+      });
     }
 
     // Eventos para modales
@@ -302,6 +308,94 @@ document.addEventListener("DOMContentLoaded", async () => {
 
     // Evento para compartir resultado
     elements.btnCompartir.addEventListener("click", compartirResultado);
+
+    // Eventos para cambio de tema
+    elements.temaSwitch.addEventListener("change", toggleTheme);
+
+    // Configurar opciones de ajustes
+    setupSettingsOptions();
+  }
+
+  // Configurar opciones de ajustes
+  function setupSettingsOptions() {
+    // Dificultad
+    const difficultyOptions = document.querySelectorAll("[data-difficulty]");
+    difficultyOptions.forEach((option) => {
+      option.addEventListener("click", () => {
+        difficultyOptions.forEach((opt) => opt.classList.remove("active"));
+        option.classList.add("active");
+        localStorage.setItem("verboLogicDifficulty", option.dataset.difficulty);
+        config.dificultad = option.dataset.difficulty;
+        elements.difficulty.textContent =
+          config.dificultad === "normal" ? "Normal" : "Difícil";
+      });
+    });
+
+    // Longitud de palabras
+    const lengthOptions = document.querySelectorAll("[data-length]");
+    lengthOptions.forEach((option) => {
+      option.addEventListener("click", () => {
+        lengthOptions.forEach((opt) => opt.classList.remove("active"));
+        option.classList.add("active");
+        localStorage.setItem("verboLogicWordLength", option.dataset.length);
+        // Notificar al usuario que necesita reiniciar para aplicar este cambio
+        alert("La longitud de palabras se aplicará al reiniciar el juego.");
+      });
+    });
+
+    // Sonidos
+    if (elements.soundToggle) {
+      elements.soundToggle.checked = config.sonidosActivados;
+      elements.soundToggle.addEventListener("change", () => {
+        config.sonidosActivados = elements.soundToggle.checked;
+        localStorage.setItem(
+          "verboLogicSound",
+          config.sonidosActivados ? "on" : "off"
+        );
+      });
+    }
+  }
+
+  // Cargar configuraciones guardadas
+  function loadSavedSettings() {
+    // Cargar dificultad
+    const savedDifficulty =
+      localStorage.getItem("verboLogicDifficulty") || "normal";
+    const difficultyOption = document.querySelector(
+      `[data-difficulty="${savedDifficulty}"]`
+    );
+    if (difficultyOption) {
+      document
+        .querySelectorAll("[data-difficulty]")
+        .forEach((opt) => opt.classList.remove("active"));
+      difficultyOption.classList.add("active");
+    }
+
+    // Cargar longitud de palabras
+    const savedLength = localStorage.getItem("verboLogicWordLength") || "5";
+    const lengthOption = document.querySelector(
+      `[data-length="${savedLength}"]`
+    );
+    if (lengthOption) {
+      document
+        .querySelectorAll("[data-length]")
+        .forEach((opt) => opt.classList.remove("active"));
+      lengthOption.classList.add("active");
+    }
+
+    // Cargar configuración de sonido
+    if (elements.soundToggle) {
+      elements.soundToggle.checked = config.sonidosActivados;
+    }
+
+    // Cargar tema
+    const savedTheme = localStorage.getItem("verboLogicTheme") || "dark";
+    elements.temaSwitch.checked = savedTheme === "dark";
+    if (savedTheme === "light") {
+      document.body.classList.remove("dark-mode");
+    } else {
+      document.body.classList.add("dark-mode");
+    }
   }
 
   // Manejar pulsación de tecla virtual
@@ -811,5 +905,19 @@ document.addEventListener("DOMContentLoaded", async () => {
       .padStart(2, "0");
     const segs = (segundos % 60).toString().padStart(2, "0");
     return `${minutos}:${segs}`;
+  }
+
+  // Cambiar tema claro/oscuro
+  function toggleTheme() {
+    const isDarkMode = elements.temaSwitch.checked;
+
+    if (isDarkMode) {
+      document.body.classList.add("dark-mode");
+    } else {
+      document.body.classList.remove("dark-mode");
+    }
+
+    // Guardar preferencia
+    localStorage.setItem("verboLogicTheme", isDarkMode ? "dark" : "light");
   }
 });
