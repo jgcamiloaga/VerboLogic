@@ -30,7 +30,6 @@
   font-family: "Poppins", sans-serif;
 }
 
-/* Set dark mode as default and remove theme toggle */
 body {
   background: var(--bg-dark);
   color: var(--text-light);
@@ -327,8 +326,6 @@ footer a:hover {
   color: var(--accent-color);
 }
 
-/* Remove the tema-toggle styles and the body.dark-mode and body:not(.dark-mode) selectors */
-
 /* Modal */
 .modal {
   display: none;
@@ -605,4 +602,101 @@ footer a:hover {
     padding: 0.7rem 1rem;
     font-size: 0.9rem;
   }
+}
+
+/* Estadísticas */
+.stats-container {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 1rem;
+  margin-bottom: 1.5rem;
+}
+
+.stat-box {
+  border-radius: var(--border-radius);
+  padding: 1rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  background-color: rgba(255, 255, 255, 0.05);
+}
+
+.stat-number {
+  font-size: 2rem;
+  font-weight: 700;
+  color: var(--primary-light);
+}
+
+.stat-label {
+  font-size: 0.9rem;
+  opacity: 0.8;
+}
+
+.distribution-container {
+  border-radius: var(--border-radius);
+  padding: 1.5rem;
+  background-color: rgba(255, 255, 255, 0.05);
+  margin-top: 1rem;
+}
+
+.distribution-container h3 {
+  font-size: 1.1rem;
+  margin-bottom: 1rem;
+  text-align: center;
+}
+
+.distribution-bars {
+  display: flex;
+  flex-direction: column;
+  gap: 0.8rem;
+}
+
+.distribution-bar {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.bar-label {
+  font-size: 0.9rem;
+  min-width: 20px;
+}
+
+.bar-container {
+  flex-grow: 1;
+  height: 24px;
+  border-radius: 4px;
+  overflow: hidden;
+  background-color: rgba(255, 255, 255, 0.1);
+}
+
+.bar-fill {
+  height: 100%;
+  background-color: var(--primary-color);
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  padding-right: 0.5rem;
+  transition: width 1s ease;
+}
+
+.bar-value {
+  font-size: 0.8rem;
+  color: var(--text-light);
+}
+
+.btn-cerrar {
+  background-color: var(--primary-color);
+  color: var(--text-light);
+  padding: 0.8rem 2rem;
+  border-radius: var(--border-radius);
+  cursor: pointer;
+  transition: var(--transition);
+  font-weight: 500;
+  border: none;
+}
+
+.btn-cerrar:hover {
+  background-color: var(--primary-dark);
 }
