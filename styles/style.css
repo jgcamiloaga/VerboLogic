@@ -326,6 +326,48 @@ footer a:hover {
   color: var(--accent-color);
 }
 
+.tema-toggle {
+  position: relative;
+  width: 50px;
+  height: 24px;
+}
+
+.tema-toggle input {
+  display: none;
+}
+
+.slider {
+  position: absolute;
+  cursor: pointer;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(255, 255, 255, 0.2);
+  border-radius: 12px;
+  transition: var(--transition);
+}
+
+.slider:before {
+  position: absolute;
+  content: "";
+  height: 18px;
+  width: 18px;
+  left: 3px;
+  bottom: 3px;
+  background-color: white;
+  border-radius: 50%;
+  transition: var(--transition);
+}
+
+input:checked + .slider {
+  background-color: var(--primary-color);
+}
+
+input:checked + .slider:before {
+  transform: translateX(26px);
+}
+
 /* Modal */
 .modal {
   display: none;
@@ -542,68 +584,6 @@ footer a:hover {
   font-size: 0.9rem;
 }
 
-/* Responsive */
-@media (max-width: 768px) {
-  .letter-box {
-    width: 50px;
-    height: 50px;
-    font-size: 1.8rem;
-  }
-
-  .key {
-    min-width: 35px;
-    height: 45px;
-    font-size: 1rem;
-  }
-
-  .key.wide {
-    min-width: 55px;
-    font-size: 0.8rem;
-  }
-}
-
-@media (max-width: 480px) {
-  header h1 {
-    font-size: 1.5rem;
-  }
-
-  .letter-box {
-    width: 40px;
-    height: 40px;
-    font-size: 1.5rem;
-  }
-
-  .key {
-    min-width: 28px;
-    height: 40px;
-    font-size: 0.9rem;
-  }
-
-  .key.wide {
-    min-width: 45px;
-    font-size: 0.7rem;
-  }
-
-  .modal-content {
-    padding: 1.5rem;
-  }
-
-  .palabra-correcta .letter {
-    width: 30px;
-    height: 30px;
-    font-size: 1.2rem;
-  }
-
-  .stat-value {
-    font-size: 1.5rem;
-  }
-
-  .modal-buttons button {
-    padding: 0.7rem 1rem;
-    font-size: 0.9rem;
-  }
-}
-
 /* Estadísticas */
 .stats-container {
   display: grid;
@@ -699,4 +679,156 @@ footer a:hover {
 
 .btn-cerrar:hover {
   background-color: var(--primary-dark);
+}
+
+/* Ajustes */
+.settings-container {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.setting-item {
+  display: flex;
+  flex-direction: column;
+  gap: 0.8rem;
+}
+
+.setting-label {
+  font-size: 1rem;
+  font-weight: 500;
+}
+
+.setting-options {
+  display: flex;
+  gap: 0.5rem;
+}
+
+.setting-option {
+  flex: 1;
+  padding: 0.7rem;
+  border: none;
+  border-radius: var(--border-radius);
+  cursor: pointer;
+  transition: var(--transition);
+  background-color: rgba(255, 255, 255, 0.1);
+  color: var(--text-light);
+}
+
+.setting-option:hover {
+  background-color: rgba(255, 255, 255, 0.2);
+}
+
+.setting-option.active {
+  background-color: var(--primary-color);
+  color: var(--text-light);
+  font-weight: 500;
+}
+
+.toggle-switch {
+  position: relative;
+  width: 50px;
+  height: 24px;
+}
+
+.toggle-switch input {
+  display: none;
+}
+
+.toggle-slider {
+  position: absolute;
+  cursor: pointer;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(255, 255, 255, 0.2);
+  border-radius: 12px;
+  transition: var(--transition);
+}
+
+.toggle-slider:before {
+  position: absolute;
+  content: "";
+  height: 18px;
+  width: 18px;
+  left: 3px;
+  bottom: 3px;
+  background-color: white;
+  border-radius: 50%;
+  transition: var(--transition);
+}
+
+input:checked + .toggle-slider {
+  background-color: var(--primary-color);
+}
+
+input:checked + .toggle-slider:before {
+  transform: translateX(26px);
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .letter-box {
+    width: 50px;
+    height: 50px;
+    font-size: 1.8rem;
+  }
+
+  .key {
+    min-width: 35px;
+    height: 45px;
+    font-size: 1rem;
+  }
+
+  .key.wide {
+    min-width: 55px;
+    font-size: 0.8rem;
+  }
+}
+
+@media (max-width: 480px) {
+  header h1 {
+    font-size: 1.5rem;
+  }
+
+  .letter-box {
+    width: 40px;
+    height: 40px;
+    font-size: 1.5rem;
+  }
+
+  .key {
+    min-width: 28px;
+    height: 40px;
+    font-size: 0.9rem;
+  }
+
+  .key.wide {
+    min-width: 45px;
+    font-size: 0.7rem;
+  }
+
+  .modal-content {
+    padding: 1.5rem;
+  }
+
+  .palabra-correcta .letter {
+    width: 30px;
+    height: 30px;
+    font-size: 1.2rem;
+  }
+
+  .stat-value {
+    font-size: 1.5rem;
+  }
+
+  .modal-buttons button {
+    padding: 0.7rem 1rem;
+    font-size: 0.9rem;
+  }
+
+  .setting-options {
+    flex-direction: column;
+  }
 }
