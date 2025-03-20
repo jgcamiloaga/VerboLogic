@@ -56,42 +56,16 @@ document.addEventListener("DOMContentLoaded", async () => {
     cerrarModalAjustes: document.getElementById("cerrar-modal-ajustes"),
     btnCerrarEstadisticas: document.getElementById("btn-cerrar-estadisticas"),
     btnCerrarAjustes: document.getElementById("btn-cerrar-ajustes"),
-    temaSwitch: document.getElementById("tema-switch"),
   };
+
+  // Forzar modo oscuro al cargar la página
+  document.body.classList.add("dark-mode");
 
   // Inicializar juego
   await initGame();
 
-  // Add event listeners for the new modals
-  if (elements.cerrarModalEstadisticas) {
-    elements.cerrarModalEstadisticas.addEventListener("click", () =>
-      ocultarModal(elements.modalEstadisticas)
-    );
-  }
-
-  if (elements.btnCerrarEstadisticas) {
-    elements.btnCerrarEstadisticas.addEventListener("click", () =>
-      ocultarModal(elements.modalEstadisticas)
-    );
-  }
-
-  if (elements.cerrarModalAjustes) {
-    elements.cerrarModalAjustes.addEventListener("click", () =>
-      ocultarModal(elements.modalAjustes)
-    );
-  }
-
-  if (elements.btnCerrarAjustes) {
-    elements.btnCerrarAjustes.addEventListener("click", () =>
-      ocultarModal(elements.modalAjustes)
-    );
-  }
-
-  // Initialize stats for the statistics modal
+  // Inicializar estadísticas para el modal
   initStats();
-
-  // Setup settings options
-  setupSettingsOptions();
 
   // Función para inicializar el juego
   async function initGame() {
@@ -254,20 +228,31 @@ document.addEventListener("DOMContentLoaded", async () => {
       }
     });
 
-    // Eventos para botones de navegación - Fix the Statistics and Settings buttons
+    // Eventos para botones de navegación
     elements.btnHome.addEventListener(
       "click",
       () => (window.location.href = "index.html")
     );
-    elements.btnStats.addEventListener("click", () =>
-      mostrarModal(document.getElementById("modal-estadisticas"))
-    );
-    elements.btnHelp.addEventListener("click", () =>
-      mostrarModal(elements.modalAyuda)
-    );
-    elements.btnSettings.addEventListener("click", () =>
-      mostrarModal(document.getElementById("modal-ajustes"))
-    );
+
+    // Corregir los eventos para los botones de estadísticas y ajustes
+    if (elements.btnStats) {
+      elements.btnStats.addEventListener("click", () => {
+        initStats(); // Actualizar estadísticas
+        mostrarModal(elements.modalEstadisticas);
+      });
+    }
+
+    if (elements.btnHelp) {
+      elements.btnHelp.addEventListener("click", () =>
+        mostrarModal(elements.modalAyuda)
+      );
+    }
+
+    if (elements.btnSettings) {
+      elements.btnSettings.addEventListener("click", () =>
+        mostrarModal(elements.modalAjustes)
+      );
+    }
 
     // Eventos para modales
     elements.btnInicio.addEventListener(
@@ -289,6 +274,31 @@ document.addEventListener("DOMContentLoaded", async () => {
     elements.cerrarModalAyuda.addEventListener("click", () =>
       ocultarModal(elements.modalAyuda)
     );
+
+    // Eventos para cerrar modales de estadísticas y ajustes
+    if (elements.cerrarModalEstadisticas) {
+      elements.cerrarModalEstadisticas.addEventListener("click", () =>
+        ocultarModal(elements.modalEstadisticas)
+      );
+    }
+
+    if (elements.btnCerrarEstadisticas) {
+      elements.btnCerrarEstadisticas.addEventListener("click", () =>
+        ocultarModal(elements.modalEstadisticas)
+      );
+    }
+
+    if (elements.cerrarModalAjustes) {
+      elements.cerrarModalAjustes.addEventListener("click", () =>
+        ocultarModal(elements.modalAjustes)
+      );
+    }
+
+    if (elements.btnCerrarAjustes) {
+      elements.btnCerrarAjustes.addEventListener("click", () =>
+        ocultarModal(elements.modalAjustes)
+      );
+    }
 
     // Evento para compartir resultado
     elements.btnCompartir.addEventListener("click", compartirResultado);
@@ -545,7 +555,7 @@ document.addEventListener("DOMContentLoaded", async () => {
 
   // Actualizar estadísticas
   function actualizarEstadisticas(victoria) {
-    const stats = getStats();
+    const stats = getStatsData();
 
     stats.totalJugados++;
 
@@ -566,22 +576,91 @@ document.addEventListener("DOMContentLoaded", async () => {
   }
 
   // Obtener estadísticas del localStorage
-  function getStats() {
+  function getStatsData() {
     const defaultStats = {
       totalJugados: 0,
       totalGanados: 0,
       rachaActual: 0,
       mejorRacha: 0,
-      distribucion: {},
+      distribucion: {
+        1: 0,
+        2: 0,
+        3: 0,
+        4: 0,
+        5: 0,
+        6: 0,
+      },
     };
 
     const savedStats = localStorage.getItem("verboLogicStats");
     return savedStats ? JSON.parse(savedStats) : defaultStats;
   }
 
-  // Mostrar estadísticas
-  function mostrarEstadisticas() {
-    window.location.href = "index.html#btn-estadisticas";
+  // Inicializar estadísticas
+  function initStats() {
+    const stats = getStatsData();
+
+    // Actualizar los números de estadísticas
+    const totalJugadosElements = document.querySelectorAll("#total-jugados");
+    const totalGanadosElements = document.querySelectorAll("#total-ganados");
+    const rachaActualElements = document.querySelectorAll("#racha-actual");
+    const mejorRachaElements = document.querySelectorAll("#mejor-racha");
+
+    totalJugadosElements.forEach((el) => {
+      if (el) el.textContent = stats.totalJugados;
+    });
+    totalGanadosElements.forEach((el) => {
+      if (el) el.textContent = stats.totalGanados;
+    });
+    rachaActualElements.forEach((el) => {
+      if (el) el.textContent = stats.rachaActual;
+    });
+    mejorRachaElements.forEach((el) => {
+      if (el) el.textContent = stats.mejorRacha;
+    });
+
+    // Generar gráfico de distribución para todos los contenedores de distribución
+    const distributionBarsContainers =
+      document.querySelectorAll("#distribution-bars");
+    if (distributionBarsContainers.length === 0) return;
+
+    distributionBarsContainers.forEach((distributionBars) => {
+      distributionBars.innerHTML = "";
+
+      // Encontrar el valor máximo para escalar las barras
+      const values = Object.values(stats.distribucion);
+      const maxValue = values.length > 0 ? Math.max(...values) : 1;
+
+      for (let i = 1; i <= 6; i++) {
+        const count = stats.distribucion[i] || 0;
+        const percentage = maxValue > 0 ? (count / maxValue) * 100 : 0;
+
+        const barHtml = `
+          <div class="distribution-bar">
+            <div class="bar-label">${i}</div>
+            <div class="bar-container">
+              <div class="bar-fill" style="width: ${percentage}%">
+                ${count > 0 ? `<span class="bar-value">${count}</span>` : ""}
+              </div>
+            </div>
+          </div>
+        `;
+
+        distributionBars.innerHTML += barHtml;
+      }
+
+      // Animar las barras después de un breve retraso
+      setTimeout(() => {
+        const bars = distributionBars.querySelectorAll(".bar-fill");
+        bars.forEach((bar) => {
+          const width = bar.style.width;
+          bar.style.width = "0%";
+          setTimeout(() => {
+            bar.style.width = width;
+          }, 50);
+        });
+      }, 100);
+    });
   }
 
   // Compartir resultado
@@ -638,12 +717,16 @@ document.addEventListener("DOMContentLoaded", async () => {
 
   // Mostrar modal
   function mostrarModal(modal) {
-    modal.classList.add("show");
+    if (modal) {
+      modal.classList.add("show");
+    }
   }
 
   // Ocultar modal
   function ocultarModal(modal) {
-    modal.classList.remove("show");
+    if (modal) {
+      modal.classList.remove("show");
+    }
   }
 
   // Crear confeti
@@ -729,139 +812,4 @@ document.addEventListener("DOMContentLoaded", async () => {
     const segs = (segundos % 60).toString().padStart(2, "0");
     return `${minutos}:${segs}`;
   }
-
-  // Obtener estadísticas del localStorage
-  function getStatsData() {
-    const defaultStats = {
-      totalJugados: 0,
-      totalGanados: 0,
-      rachaActual: 0,
-      mejorRacha: 0,
-      distribucion: {},
-    };
-
-    const savedStats = localStorage.getItem("verboLogicStats");
-    return savedStats ? JSON.parse(savedStats) : defaultStats;
-  }
 });
-
-// Add the initStats function from main.js
-function initStats() {
-  const stats = getStatsData();
-
-  const totalJugados = document.getElementById("total-jugados");
-  const totalGanados = document.getElementById("total-ganados");
-  const rachaActual = document.getElementById("racha-actual");
-  const mejorRacha = document.getElementById("mejor-racha");
-
-  if (totalJugados) totalJugados.textContent = stats.totalJugados;
-  if (totalGanados) totalGanados.textContent = stats.totalGanados;
-  if (rachaActual) rachaActual.textContent = stats.rachaActual;
-  if (mejorRacha) mejorRacha.textContent = stats.mejorRacha;
-
-  // Generar gráfico de distribución
-  const distributionBars = document.getElementById("distribution-bars");
-  if (!distributionBars) return;
-
-  distributionBars.innerHTML = "";
-
-  // Encontrar el valor máximo para escalar las barras
-  const values = Object.values(stats.distribucion);
-  const maxValue = values.length > 0 ? Math.max(...values) : 1;
-
-  for (let i = 1; i <= 6; i++) {
-    const count = stats.distribucion[i] || 0;
-    const percentage = maxValue > 0 ? (count / maxValue) * 100 : 0;
-
-    const barHtml = `
-            <div class="distribution-bar">
-                <div class="bar-label">${i}</div>
-                <div class="bar-container">
-                    <div class="bar-fill" style="width: ${percentage}%">
-                        ${
-                          count > 0
-                            ? `<span class="bar-value">${count}</span>`
-                            : ""
-                        }
-                    </div>
-                </div>
-            </div>
-        `;
-
-    distributionBars.innerHTML += barHtml;
-  }
-
-  // Animar las barras después de un breve retraso
-  setTimeout(() => {
-    const bars = document.querySelectorAll(".bar-fill");
-    bars.forEach((bar) => {
-      const width = bar.style.width;
-      bar.style.width = "0%";
-      setTimeout(() => {
-        bar.style.width = width;
-      }, 50);
-    });
-  }, 100);
-}
-
-// Add the setupSettingsOptions function from main.js
-function setupSettingsOptions() {
-  // Dificultad
-  const difficultyOptions = document.querySelectorAll("[data-difficulty]");
-  difficultyOptions.forEach((option) => {
-    option.addEventListener("click", () => {
-      difficultyOptions.forEach((opt) => opt.classList.remove("active"));
-      option.classList.add("active");
-      localStorage.setItem("verboLogicDifficulty", option.dataset.difficulty);
-    });
-  });
-
-  // Longitud de palabras
-  const lengthOptions = document.querySelectorAll("[data-length]");
-  lengthOptions.forEach((option) => {
-    option.addEventListener("click", () => {
-      lengthOptions.forEach((opt) => opt.classList.remove("active"));
-      option.classList.add("active");
-      localStorage.setItem("verboLogicWordLength", option.dataset.length);
-    });
-  });
-
-  // Sonidos
-  const soundToggle = document.getElementById("sound-toggle");
-  if (soundToggle) {
-    soundToggle.checked = localStorage.getItem("verboLogicSound") !== "off";
-    soundToggle.addEventListener("change", () => {
-      localStorage.setItem(
-        "verboLogicSound",
-        soundToggle.checked ? "on" : "off"
-      );
-    });
-  }
-
-  // Cargar configuraciones guardadas
-  loadSavedSettings();
-}
-
-// Add the loadSavedSettings function from main.js
-function loadSavedSettings() {
-  const savedDifficulty =
-    localStorage.getItem("verboLogicDifficulty") || "normal";
-  const difficultyOption = document.querySelector(
-    `[data-difficulty="${savedDifficulty}"]`
-  );
-  if (difficultyOption) {
-    document
-      .querySelectorAll("[data-difficulty]")
-      .forEach((opt) => opt.classList.remove("active"));
-    difficultyOption.classList.add("active");
-  }
-
-  const savedLength = localStorage.getItem("verboLogicWordLength") || "5";
-  const lengthOption = document.querySelector(`[data-length="${savedLength}"]`);
-  if (lengthOption) {
-    document
-      .querySelectorAll("[data-length]")
-      .forEach((opt) => opt.classList.remove("active"));
-    lengthOption.classList.add("active");
-  }
-}
