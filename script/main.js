@@ -82,7 +82,126 @@ function getStats() {
   return savedStats ? JSON.parse(savedStats) : defaultStats;
 }
 
-// Configurar modales
+// Actualizar la función setupSettingsOptions para corregir el toggle de sonido
+function setupSettingsOptions() {
+  // Dificultad
+  const difficultyOptions = document.querySelectorAll("[data-difficulty]");
+  difficultyOptions.forEach((option) => {
+    option.addEventListener("click", () => {
+      difficultyOptions.forEach((opt) => opt.classList.remove("active"));
+      option.classList.add("active");
+      localStorage.setItem("verboLogicDifficulty", option.dataset.difficulty);
+      // Reproducir sonido de clic si está activado
+      if (localStorage.getItem("verboLogicSound") !== "off") {
+        playClickSound();
+      }
+    });
+  });
+
+  // Longitud de palabras
+  const lengthOptions = document.querySelectorAll("[data-length]");
+  lengthOptions.forEach((option) => {
+    option.addEventListener("click", () => {
+      lengthOptions.forEach((opt) => opt.classList.remove("active"));
+      option.classList.add("active");
+      localStorage.setItem("verboLogicWordLength", option.dataset.length);
+      // Reproducir sonido de clic si está activado
+      if (localStorage.getItem("verboLogicSound") !== "off") {
+        playClickSound();
+      }
+    });
+  });
+
+  // Sonidos - Completamente reescrito para solucionar el problema
+  const soundToggle = document.getElementById("sound-toggle");
+  const soundStatus = document.getElementById("sound-status");
+  const toggleContainer = document.querySelector(".toggle-switch");
+
+  if (soundToggle && soundStatus) {
+    // Establecer el estado inicial basado en localStorage
+    const isSoundOn = localStorage.getItem("verboLogicSound") !== "off";
+    soundToggle.checked = isSoundOn;
+    soundStatus.textContent = isSoundOn ? "Activados" : "Desactivados";
+
+    // Crear una función para manejar el cambio de estado
+    function toggleSound() {
+      // Invertir el estado actual
+      soundToggle.checked = !soundToggle.checked;
+
+      // Guardar el nuevo estado
+      localStorage.setItem(
+        "verboLogicSound",
+        soundToggle.checked ? "on" : "off"
+      );
+
+      // Actualizar el texto de estado
+      soundStatus.textContent = soundToggle.checked
+        ? "Activados"
+        : "Desactivados";
+
+      // Reproducir sonido solo si se activa
+      if (soundToggle.checked) {
+        playToggleSound();
+      }
+    }
+
+    // Añadir evento al contenedor del toggle para mejor área de clic
+    if (toggleContainer) {
+      toggleContainer.addEventListener("click", (e) => {
+        e.preventDefault();
+        toggleSound();
+      });
+    }
+
+    // También añadir evento al texto de estado para mejor usabilidad
+    soundStatus.addEventListener("click", (e) => {
+      e.preventDefault();
+      toggleSound();
+    });
+  }
+
+  // Cargar configuraciones guardadas
+  loadSavedSettings();
+}
+
+// Añadir función para reproducir sonido de clic
+function playClickSound() {
+  const audioContext = new (window.AudioContext || window.webkitAudioContext)();
+  const oscillator = audioContext.createOscillator();
+  const gainNode = audioContext.createGain();
+
+  oscillator.connect(gainNode);
+  gainNode.connect(audioContext.destination);
+
+  oscillator.frequency.value = 800;
+  gainNode.gain.value = 0.1;
+  oscillator.start();
+  setTimeout(() => oscillator.stop(), 100);
+}
+
+// Añadir función para reproducir sonido de toggle
+function playToggleSound() {
+  const audioContext = new (window.AudioContext || window.webkitAudioContext)();
+  const oscillator = audioContext.createOscillator();
+  const gainNode = audioContext.createGain();
+
+  oscillator.connect(gainNode);
+  gainNode.connect(audioContext.destination);
+
+  oscillator.frequency.value = 600;
+  gainNode.gain.value = 0.1;
+  oscillator.start();
+
+  // Efecto de barrido para el toggle
+  oscillator.frequency.linearRampToValueAtTime(
+    900,
+    audioContext.currentTime + 0.2
+  );
+
+  setTimeout(() => oscillator.stop(), 200);
+}
+
+// Modificar setupModals para añadir sonidos
 function setupModals() {
   // Modal Reglas
   const btnVerReglas = document.getElementById("btn-ver-reglas");
@@ -92,14 +211,23 @@ function setupModals() {
 
   btnVerReglas.addEventListener("click", () => {
     modalReglas.classList.add("show");
+    if (localStorage.getItem("verboLogicSound") !== "off") {
+      playModalOpenSound();
+    }
   });
 
   cerrarModalReglas.addEventListener("click", () => {
     modalReglas.classList.remove("show");
+    if (localStorage.getItem("verboLogicSound") !== "off") {
+      playModalCloseSound();
+    }
   });
 
   btnCerrarReglas.addEventListener("click", () => {
     modalReglas.classList.remove("show");
+    if (localStorage.getItem("verboLogicSound") !== "off") {
+      playModalCloseSound();
+    }
   });
 
   // Modal Estadísticas
@@ -114,14 +242,23 @@ function setupModals() {
 
   btnVerEstadisticas.addEventListener("click", () => {
     modalEstadisticas.classList.add("show");
+    if (localStorage.getItem("verboLogicSound") !== "off") {
+      playModalOpenSound();
+    }
   });
 
   cerrarModalEstadisticas.addEventListener("click", () => {
     modalEstadisticas.classList.remove("show");
+    if (localStorage.getItem("verboLogicSound") !== "off") {
+      playModalCloseSound();
+    }
   });
 
   btnCerrarEstadisticas.addEventListener("click", () => {
     modalEstadisticas.classList.remove("show");
+    if (localStorage.getItem("verboLogicSound") !== "off") {
+      playModalCloseSound();
+    }
   });
 
   // Modal Ajustes
@@ -132,66 +269,83 @@ function setupModals() {
 
   btnVerAjustes.addEventListener("click", () => {
     modalAjustes.classList.add("show");
+    if (localStorage.getItem("verboLogicSound") !== "off") {
+      playModalOpenSound();
+    }
   });
 
   cerrarModalAjustes.addEventListener("click", () => {
     modalAjustes.classList.remove("show");
+    if (localStorage.getItem("verboLogicSound") !== "off") {
+      playModalCloseSound();
+    }
   });
 
   btnCerrarAjustes.addEventListener("click", () => {
     modalAjustes.classList.remove("show");
+    if (localStorage.getItem("verboLogicSound") !== "off") {
+      playModalCloseSound();
+    }
   });
 
   // Cerrar modales al hacer clic fuera del contenido
   window.addEventListener("click", (event) => {
     if (event.target === modalReglas) {
       modalReglas.classList.remove("show");
+      if (localStorage.getItem("verboLogicSound") !== "off") {
+        playModalCloseSound();
+      }
     }
     if (event.target === modalEstadisticas) {
       modalEstadisticas.classList.remove("show");
+      if (localStorage.getItem("verboLogicSound") !== "off") {
+        playModalCloseSound();
+      }
     }
     if (event.target === modalAjustes) {
       modalAjustes.classList.remove("show");
+      if (localStorage.getItem("verboLogicSound") !== "off") {
+        playModalCloseSound();
+      }
     }
   });
 }
 
-// Configurar opciones de ajustes
-function setupSettingsOptions() {
-  // Dificultad
-  const difficultyOptions = document.querySelectorAll("[data-difficulty]");
-  difficultyOptions.forEach((option) => {
-    option.addEventListener("click", () => {
-      difficultyOptions.forEach((opt) => opt.classList.remove("active"));
-      option.classList.add("active");
-      localStorage.setItem("verboLogicDifficulty", option.dataset.difficulty);
-    });
-  });
+// Añadir funciones para sonidos de modal
+function playModalOpenSound() {
+  const audioContext = new (window.AudioContext || window.webkitAudioContext)();
+  const oscillator = audioContext.createOscillator();
+  const gainNode = audioContext.createGain();
 
-  // Longitud de palabras
-  const lengthOptions = document.querySelectorAll("[data-length]");
-  lengthOptions.forEach((option) => {
-    option.addEventListener("click", () => {
-      lengthOptions.forEach((opt) => opt.classList.remove("active"));
-      option.classList.add("active");
-      localStorage.setItem("verboLogicWordLength", option.dataset.length);
-    });
-  });
+  oscillator.connect(gainNode);
+  gainNode.connect(audioContext.destination);
 
-  // Sonidos
-  const soundToggle = document.getElementById("sound-toggle");
-  if (soundToggle) {
-    soundToggle.checked = localStorage.getItem("verboLogicSound") !== "off";
-    soundToggle.addEventListener("change", () => {
-      localStorage.setItem(
-        "verboLogicSound",
-        soundToggle.checked ? "on" : "off"
-      );
-    });
-  }
+  oscillator.frequency.value = 400;
+  gainNode.gain.value = 0.1;
+  oscillator.start();
+  oscillator.frequency.linearRampToValueAtTime(
+    600,
+    audioContext.currentTime + 0.2
+  );
+  setTimeout(() => oscillator.stop(), 200);
+}
 
-  // Cargar configuraciones guardadas
-  loadSavedSettings();
+function playModalCloseSound() {
+  const audioContext = new (window.AudioContext || window.webkitAudioContext)();
+  const oscillator = audioContext.createOscillator();
+  const gainNode = audioContext.createGain();
+
+  oscillator.connect(gainNode);
+  gainNode.connect(audioContext.destination);
+
+  oscillator.frequency.value = 600;
+  gainNode.gain.value = 0.1;
+  oscillator.start();
+  oscillator.frequency.linearRampToValueAtTime(
+    400,
+    audioContext.currentTime + 0.2
+  );
+  setTimeout(() => oscillator.stop(), 200);
 }
 
 // Cargar configuraciones guardadas
