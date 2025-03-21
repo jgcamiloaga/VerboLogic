@@ -7,7 +7,7 @@
     <link rel="shortcut icon" href="img/icon.ico" type="imagen/x-icon" />
     <link rel="stylesheet" href="styles/style.css" />
   </head>
-  <body>
+  <body class="dark-mode">
     <div class="game-container">
       <header>
         <div class="header-left">
@@ -60,16 +60,12 @@
       </main>
 
       <footer>
-        <p>
+        <p class="footer-text">
           Creado por
           <a href="https://github.com/jgcamiloaga" target="_blank"
             >jgcamiloaga</a
           >
         </p>
-        <div class="tema-toggle">
-          <input type="checkbox" id="tema-switch" checked />
-          <span class="slider"></span>
-        </div>
       </footer>
     </div>
 
@@ -221,38 +217,27 @@
       </div>
     </div>
 
-    <!-- Modal Ajustes -->
+    <!-- Modal Ajustes (Solo Visualización) -->
     <div id="modal-ajustes" class="modal">
       <div class="modal-content">
         <span class="close" id="cerrar-modal-ajustes">&times;</span>
-        <h2>AJUSTES</h2>
-        <div class="settings-container">
-          <div class="setting-item">
-            <span class="setting-label">Dificultad</span>
-            <div class="setting-options">
-              <button class="setting-option active" data-difficulty="normal">
-                Normal
-              </button>
-              <button class="setting-option" data-difficulty="hard">
-                Difícil
-              </button>
-            </div>
+        <h2>AJUSTES ACTUALES</h2>
+        <div class="settings-view-container">
+          <div class="setting-view-item">
+            <span class="setting-label">Dificultad:</span>
+            <span class="setting-value" id="current-difficulty">Normal</span>
           </div>
-          <div class="setting-item">
-            <span class="setting-label">Longitud de palabras</span>
-            <div class="setting-options">
-              <button class="setting-option" data-length="4">4</button>
-              <button class="setting-option active" data-length="5">5</button>
-              <button class="setting-option" data-length="6">6</button>
-            </div>
+          <div class="setting-view-item">
+            <span class="setting-label">Longitud de palabras:</span>
+            <span class="setting-value" id="current-length">5</span>
           </div>
-          <div class="setting-item">
-            <span class="setting-label">Sonidos</span>
-            <div class="toggle-switch">
-              <input type="checkbox" id="sound-toggle" checked />
-              <span class="toggle-slider"></span>
-            </div>
+          <div class="setting-view-item">
+            <span class="setting-label">Sonidos:</span>
+            <span class="setting-value" id="current-sound">Activados</span>
           </div>
+          <p class="settings-note">
+            Para cambiar los ajustes, regresa a la pantalla de inicio.
+          </p>
         </div>
         <div class="modal-buttons">
           <button id="btn-cerrar-ajustes" class="btn-cerrar">Cerrar</button>
