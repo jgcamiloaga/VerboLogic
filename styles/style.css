@@ -13,7 +13,7 @@
   --warning-color: #ff9800;
   --error-color: #f44336;
   --border-radius: 12px;
-  --box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+  --box_shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
   --transition: all 0.3s ease;
 
   /* Colores del juego */
@@ -74,9 +74,9 @@ header h1 {
 }
 
 header button {
+  color: var(--text-light);
   background: none;
   border: none;
-  color: var(--text-light);
   font-size: 1.2rem;
   cursor: pointer;
   width: 40px;
@@ -221,11 +221,11 @@ main {
 }
 
 .key {
+  background-color: rgba(255, 255, 255, 0.2);
+  color: var(--text-light);
   min-width: 40px;
   height: 50px;
   border-radius: 4px;
-  background-color: rgba(255, 255, 255, 0.2);
-  color: var(--text-light);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -265,12 +265,12 @@ main {
 }
 
 #input-letra {
-  flex: 1;
-  padding: 0.8rem 1rem;
-  border-radius: var(--border-radius);
   border: 1px solid rgba(255, 255, 255, 0.2);
   background-color: rgba(255, 255, 255, 0.05);
   color: var(--text-light);
+  flex: 1;
+  padding: 0.8rem 1rem;
+  border-radius: var(--border-radius);
   font-size: 1rem;
   transition: var(--transition);
 }
@@ -303,11 +303,22 @@ main {
 
 /* Footer */
 footer {
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
   display: flex;
-  justify-content: space-between;
+  justify-content: center;
   align-items: center;
   padding: 1rem;
-  border-top: 1px solid rgba(255, 255, 255, 0.1);
+  text-align: center;
+}
+
+.footer-text {
+  text-align: center;
+  width: 100%;
+}
+
+footer {
+  justify-content: center;
+  text-align: center;
 }
 
 footer p {
@@ -391,13 +402,14 @@ input:checked + .slider:before {
 
 .modal-content {
   background-color: #1e1e1e;
+  color: var(--text-light);
   border-radius: var(--border-radius);
   padding: 2rem;
   width: 90%;
   max-width: 500px;
   max-height: 90vh;
   overflow-y: auto;
-  box-shadow: var(--box-shadow);
+  box-shadow: var(--box_shadow);
   position: relative;
   transform: scale(0.9);
   transition: transform 0.3s ease;
@@ -408,11 +420,11 @@ input:checked + .slider:before {
 }
 
 .close {
+  color: var(--text-light);
   position: absolute;
   top: 1rem;
   right: 1rem;
   font-size: 1.5rem;
-  color: var(--text-light);
   opacity: 0.7;
   cursor: pointer;
   transition: var(--transition);
@@ -593,13 +605,13 @@ input:checked + .slider:before {
 }
 
 .stat-box {
+  background-color: rgba(255, 255, 255, 0.05);
   border-radius: var(--border-radius);
   padding: 1rem;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  background-color: rgba(255, 255, 255, 0.05);
 }
 
 .stat-number {
@@ -614,10 +626,9 @@ input:checked + .slider:before {
 }
 
 .distribution-container {
+  background-color: rgba(255, 255, 255, 0.05);
   border-radius: var(--border-radius);
   padding: 1.5rem;
-  background-color: rgba(255, 255, 255, 0.05);
-  margin-top: 1rem;
 }
 
 .distribution-container h3 {
@@ -644,11 +655,11 @@ input:checked + .slider:before {
 }
 
 .bar-container {
+  background-color: rgba(255, 255, 255, 0.1);
   flex-grow: 1;
   height: 24px;
   border-radius: 4px;
   overflow: hidden;
-  background-color: rgba(255, 255, 255, 0.1);
 }
 
 .bar-fill {
@@ -666,21 +677,6 @@ input:checked + .slider:before {
   color: var(--text-light);
 }
 
-.btn-cerrar {
-  background-color: var(--primary-color);
-  color: var(--text-light);
-  padding: 0.8rem 2rem;
-  border-radius: var(--border-radius);
-  cursor: pointer;
-  transition: var(--transition);
-  font-weight: 500;
-  border: none;
-}
-
-.btn-cerrar:hover {
-  background-color: var(--primary-dark);
-}
-
 /* Ajustes */
 .settings-container {
   display: flex;
@@ -696,7 +692,6 @@ input:checked + .slider:before {
 
 .setting-label {
   font-size: 1rem;
-  font-weight: 500;
 }
 
 .setting-options {
@@ -705,14 +700,14 @@ input:checked + .slider:before {
 }
 
 .setting-option {
+  background-color: rgba(255, 255, 255, 0.1);
+  color: var(--text-light);
   flex: 1;
   padding: 0.7rem;
   border: none;
   border-radius: var(--border-radius);
   cursor: pointer;
   transition: var(--transition);
-  background-color: rgba(255, 255, 255, 0.1);
-  color: var(--text-light);
 }
 
 .setting-option:hover {
@@ -766,6 +761,58 @@ input:checked + .toggle-slider {
 input:checked + .toggle-slider:before {
   transform: translateX(26px);
 }
+
+.btn-cerrar {
+  background-color: var(--primary-color);
+  color: var(--text-light);
+  padding: 0.8rem 2rem;
+  border-radius: var(--border-radius);
+  cursor: pointer;
+  transition: var(--transition);
+  font-weight: 500;
+  border: none;
+}
+
+.btn-cerrar:hover {
+  background-color: var(--primary-dark);
+}
+
+/* Settings View (Read-only) */
+.settings-view-container {
+  background-color: rgba(255, 255, 255, 0.05);
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+  padding: 1rem;
+  border-radius: var(--border-radius);
+}
+
+.setting-view-item {
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0.5rem 0;
+}
+
+.setting-view-item:last-child {
+  border-bottom: none;
+}
+
+.setting-value {
+  color: var(--primary-light);
+  font-weight: 600;
+}
+
+.settings-note {
+  text-align: center;
+  font-size: 0.9rem;
+  opacity: 0.7;
+  margin-top: 1rem;
+  font-style: italic;
+}
+
+/* Light mode adjustments for stats and settings */
 
 /* Responsive */
 @media (max-width: 768px) {
@@ -826,9 +873,5 @@ input:checked + .toggle-slider:before {
   .modal-buttons button {
     padding: 0.7rem 1rem;
     font-size: 0.9rem;
-  }
-
-  .setting-options {
-    flex-direction: column;
   }
 }
