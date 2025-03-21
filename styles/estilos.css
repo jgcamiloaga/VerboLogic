@@ -30,6 +30,7 @@ body {
   flex-direction: column;
   align-items: center;
   justify-content: center;
+  transition: var(--transition);
   background-color: var(--bg-dark);
   color: var(--text-light);
 }
@@ -219,10 +220,10 @@ footer a:hover {
   top: 1rem;
   right: 1rem;
   font-size: 1.5rem;
-  color: var(--text-light);
   opacity: 0.7;
   cursor: pointer;
   transition: var(--transition);
+  color: var(--text-light);
 }
 
 .close:hover {
@@ -427,6 +428,79 @@ footer a:hover {
   background-color: var(--primary-color);
   color: var(--text-light);
   font-weight: 500;
+}
+
+/* Mejorar el estilo del toggle de sonido */
+.sound-toggle-container {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-top: 0.5rem;
+}
+
+.sound-toggle-btn {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  padding: 0.7rem 1rem;
+  background-color: rgba(255, 255, 255, 0.1);
+  border: none;
+  border-radius: var(--border-radius);
+  cursor: pointer;
+  transition: var(--transition);
+  color: var(--text-light);
+}
+
+.sound-toggle-btn:hover {
+  background-color: rgba(255, 255, 255, 0.2);
+}
+
+.sound-status {
+  font-size: 0.9rem;
+  font-weight: 500;
+}
+
+.toggle-switch {
+  position: relative;
+  width: 50px;
+  height: 24px;
+}
+
+.toggle-switch input {
+  display: none;
+}
+
+.toggle-slider {
+  position: absolute;
+  cursor: pointer;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(255, 255, 255, 0.2);
+  border-radius: 12px;
+  transition: var(--transition);
+}
+
+.toggle-slider:before {
+  position: absolute;
+  content: "";
+  height: 18px;
+  width: 18px;
+  left: 3px;
+  bottom: 3px;
+  background-color: white;
+  border-radius: 50%;
+  transition: var(--transition);
+}
+
+input:checked + .toggle-slider {
+  background-color: var(--primary-color);
+}
+
+input:checked + .toggle-slider:before {
+  transform: translateX(26px);
 }
 
 /* Responsive */
