@@ -1,4 +1,7 @@
 document.addEventListener("DOMContentLoaded", async () => {
+  // Siempre aplicar modo oscuro
+  document.body.classList.add("dark-mode");
+
   // Configuración del juego
   const config = {
     maxIntentos: 6,
@@ -32,8 +35,6 @@ document.addEventListener("DOMContentLoaded", async () => {
     modalVictoria: document.getElementById("modal-victoria"),
     modalDerrota: document.getElementById("modal-derrota"),
     modalAyuda: document.getElementById("modal-ayuda"),
-    modalEstadisticas: document.getElementById("modal-estadisticas"),
-    modalAjustes: document.getElementById("modal-ajustes"),
     palabraCorrectaVictoria: document.getElementById("palabra-correcta"),
     palabraCorrectaDerrota: document.getElementById("palabra-correcta-derrota"),
     intentosUsados: document.getElementById("intentos-usados"),
@@ -50,27 +51,10 @@ document.addEventListener("DOMContentLoaded", async () => {
     cerrarModalVictoria: document.getElementById("cerrar-modal"),
     cerrarModalDerrota: document.getElementById("cerrar-modal-derrota"),
     cerrarModalAyuda: document.getElementById("cerrar-modal-ayuda"),
-    cerrarModalEstadisticas: document.getElementById(
-      "cerrar-modal-estadisticas"
-    ),
-    cerrarModalAjustes: document.getElementById("cerrar-modal-ajustes"),
-    btnCerrarEstadisticas: document.getElementById("btn-cerrar-estadisticas"),
-    btnCerrarAjustes: document.getElementById("btn-cerrar-ajustes"),
-    temaSwitch: document.getElementById("tema-switch"),
-    soundToggle: document.getElementById("sound-toggle"),
   };
-
-  // Forzar modo oscuro al cargar la página
-  document.body.classList.add("dark-mode");
 
   // Inicializar juego
   await initGame();
-
-  // Inicializar estadísticas para el modal
-  initStats();
-
-  // Cargar configuraciones guardadas
-  loadSavedSettings();
 
   // Función para inicializar el juego
   async function initGame() {
@@ -109,6 +93,33 @@ document.addEventListener("DOMContentLoaded", async () => {
 
     // Configurar eventos
     setupEventListeners();
+
+    // Actualizar la información de ajustes en el modal
+    updateSettingsDisplay();
+  }
+
+  // Actualizar la visualización de ajustes en el modal
+  function updateSettingsDisplay() {
+    // Mostrar la dificultad actual
+    const currentDifficulty = document.getElementById("current-difficulty");
+    if (currentDifficulty) {
+      currentDifficulty.textContent =
+        config.dificultad === "normal" ? "Normal" : "Difícil";
+    }
+
+    // Mostrar la longitud de palabras actual
+    const currentLength = document.getElementById("current-length");
+    if (currentLength) {
+      currentLength.textContent = config.longitudPalabra.toString();
+    }
+
+    // Mostrar el estado de los sonidos
+    const currentSound = document.getElementById("current-sound");
+    if (currentSound) {
+      currentSound.textContent = config.sonidosActivados
+        ? "Activados"
+        : "Desactivados";
+    }
   }
 
   // Función para obtener palabras desde un archivo JSON
@@ -238,27 +249,13 @@ document.addEventListener("DOMContentLoaded", async () => {
       "click",
       () => (window.location.href = "index.html")
     );
-
-    // Corregir los eventos para los botones de estadísticas y ajustes
-    if (elements.btnStats) {
-      elements.btnStats.addEventListener("click", () => {
-        initStats(); // Actualizar estadísticas
-        mostrarModal(elements.modalEstadisticas);
-      });
-    }
-
-    if (elements.btnHelp) {
-      elements.btnHelp.addEventListener("click", () =>
-        mostrarModal(elements.modalAyuda)
-      );
-    }
-
-    if (elements.btnSettings) {
-      elements.btnSettings.addEventListener("click", () => {
-        loadSavedSettings(); // Cargar configuraciones actuales
-        mostrarModal(elements.modalAjustes);
-      });
-    }
+    elements.btnStats.addEventListener("click", mostrarEstadisticas);
+    elements.btnHelp.addEventListener("click", () =>
+      mostrarModal(elements.modalAyuda)
+    );
+    elements.btnSettings.addEventListener("click", () =>
+      mostrarModal(document.getElementById("modal-ajustes"))
+    );
 
     // Eventos para modales
     elements.btnInicio.addEventListener(
@@ -281,121 +278,30 @@ document.addEventListener("DOMContentLoaded", async () => {
       ocultarModal(elements.modalAyuda)
     );
 
-    // Eventos para cerrar modales de estadísticas y ajustes
-    if (elements.cerrarModalEstadisticas) {
-      elements.cerrarModalEstadisticas.addEventListener("click", () =>
-        ocultarModal(elements.modalEstadisticas)
+    // Eventos para modales de estadísticas y ajustes
+    document
+      .getElementById("cerrar-modal-estadisticas")
+      .addEventListener("click", () =>
+        ocultarModal(document.getElementById("modal-estadisticas"))
       );
-    }
-
-    if (elements.btnCerrarEstadisticas) {
-      elements.btnCerrarEstadisticas.addEventListener("click", () =>
-        ocultarModal(elements.modalEstadisticas)
+    document
+      .getElementById("btn-cerrar-estadisticas")
+      .addEventListener("click", () =>
+        ocultarModal(document.getElementById("modal-estadisticas"))
       );
-    }
-
-    if (elements.cerrarModalAjustes) {
-      elements.cerrarModalAjustes.addEventListener("click", () =>
-        ocultarModal(elements.modalAjustes)
+    document
+      .getElementById("cerrar-modal-ajustes")
+      .addEventListener("click", () =>
+        ocultarModal(document.getElementById("modal-ajustes"))
       );
-    }
-
-    if (elements.btnCerrarAjustes) {
-      elements.btnCerrarAjustes.addEventListener("click", () =>
-        ocultarModal(elements.modalAjustes)
+    document
+      .getElementById("btn-cerrar-ajustes")
+      .addEventListener("click", () =>
+        ocultarModal(document.getElementById("modal-ajustes"))
       );
-    }
 
     // Evento para compartir resultado
     elements.btnCompartir.addEventListener("click", compartirResultado);
-
-    // Eventos para cambio de tema
-    elements.temaSwitch.addEventListener("change", toggleTheme);
-
-    // Configurar opciones de ajustes
-    setupSettingsOptions();
-  }
-
-  // Configurar opciones de ajustes
-  function setupSettingsOptions() {
-    // Dificultad
-    const difficultyOptions = document.querySelectorAll("[data-difficulty]");
-    difficultyOptions.forEach((option) => {
-      option.addEventListener("click", () => {
-        difficultyOptions.forEach((opt) => opt.classList.remove("active"));
-        option.classList.add("active");
-        localStorage.setItem("verboLogicDifficulty", option.dataset.difficulty);
-        config.dificultad = option.dataset.difficulty;
-        elements.difficulty.textContent =
-          config.dificultad === "normal" ? "Normal" : "Difícil";
-      });
-    });
-
-    // Longitud de palabras
-    const lengthOptions = document.querySelectorAll("[data-length]");
-    lengthOptions.forEach((option) => {
-      option.addEventListener("click", () => {
-        lengthOptions.forEach((opt) => opt.classList.remove("active"));
-        option.classList.add("active");
-        localStorage.setItem("verboLogicWordLength", option.dataset.length);
-        // Notificar al usuario que necesita reiniciar para aplicar este cambio
-        alert("La longitud de palabras se aplicará al reiniciar el juego.");
-      });
-    });
-
-    // Sonidos
-    if (elements.soundToggle) {
-      elements.soundToggle.checked = config.sonidosActivados;
-      elements.soundToggle.addEventListener("change", () => {
-        config.sonidosActivados = elements.soundToggle.checked;
-        localStorage.setItem(
-          "verboLogicSound",
-          config.sonidosActivados ? "on" : "off"
-        );
-      });
-    }
-  }
-
-  // Cargar configuraciones guardadas
-  function loadSavedSettings() {
-    // Cargar dificultad
-    const savedDifficulty =
-      localStorage.getItem("verboLogicDifficulty") || "normal";
-    const difficultyOption = document.querySelector(
-      `[data-difficulty="${savedDifficulty}"]`
-    );
-    if (difficultyOption) {
-      document
-        .querySelectorAll("[data-difficulty]")
-        .forEach((opt) => opt.classList.remove("active"));
-      difficultyOption.classList.add("active");
-    }
-
-    // Cargar longitud de palabras
-    const savedLength = localStorage.getItem("verboLogicWordLength") || "5";
-    const lengthOption = document.querySelector(
-      `[data-length="${savedLength}"]`
-    );
-    if (lengthOption) {
-      document
-        .querySelectorAll("[data-length]")
-        .forEach((opt) => opt.classList.remove("active"));
-      lengthOption.classList.add("active");
-    }
-
-    // Cargar configuración de sonido
-    if (elements.soundToggle) {
-      elements.soundToggle.checked = config.sonidosActivados;
-    }
-
-    // Cargar tema
-    const savedTheme = localStorage.getItem("verboLogicTheme") || "dark";
-    elements.temaSwitch.checked = savedTheme === "dark";
-    if (savedTheme === "light") {
-      document.body.classList.remove("dark-mode");
-    } else {
-      document.body.classList.add("dark-mode");
-    }
   }
 
   // Manejar pulsación de tecla virtual
@@ -408,10 +314,18 @@ document.addEventListener("DOMContentLoaded", async () => {
       const valorActual = elements.inputLetra.value;
       elements.inputLetra.value = valorActual.slice(0, -1);
       actualizarFilaActual(elements.inputLetra.value);
+      // Reproducir sonido de borrar
+      if (config.sonidosActivados) {
+        reproducirSonidoTecla("borrar");
+      }
     } else {
       if (elements.inputLetra.value.length < config.longitudPalabra) {
         elements.inputLetra.value += key;
         actualizarFilaActual(elements.inputLetra.value);
+        // Reproducir sonido de tecla
+        if (config.sonidosActivados) {
+          reproducirSonidoTecla("tecla");
+        }
       }
     }
   }
@@ -599,6 +513,13 @@ document.addEventListener("DOMContentLoaded", async () => {
     // Actualizar estadísticas
     actualizarEstadisticas(true);
 
+    // Reproducir sonido de victoria
+    if (config.sonidosActivados) {
+      setTimeout(() => {
+        reproducirSonido("victoria");
+      }, config.longitudPalabra * 300 + 200);
+    }
+
     // Mostrar modal después de un retraso para las animaciones
     setTimeout(() => {
       // Mostrar palabra correcta
@@ -625,6 +546,13 @@ document.addEventListener("DOMContentLoaded", async () => {
     // Actualizar estadísticas
     actualizarEstadisticas(false);
 
+    // Reproducir sonido de derrota
+    if (config.sonidosActivados) {
+      setTimeout(() => {
+        reproducirSonido("derrota");
+      }, config.longitudPalabra * 300 + 200);
+    }
+
     // Mostrar modal después de un retraso para las animaciones
     setTimeout(() => {
       // Mostrar palabra correcta
@@ -649,7 +577,7 @@ document.addEventListener("DOMContentLoaded", async () => {
 
   // Actualizar estadísticas
   function actualizarEstadisticas(victoria) {
-    const stats = getStatsData();
+    const stats = getStats();
 
     stats.totalJugados++;
 
@@ -670,91 +598,57 @@ document.addEventListener("DOMContentLoaded", async () => {
   }
 
   // Obtener estadísticas del localStorage
-  function getStatsData() {
+  function getStats() {
     const defaultStats = {
       totalJugados: 0,
       totalGanados: 0,
       rachaActual: 0,
       mejorRacha: 0,
-      distribucion: {
-        1: 0,
-        2: 0,
-        3: 0,
-        4: 0,
-        5: 0,
-        6: 0,
-      },
+      distribucion: {},
     };
 
     const savedStats = localStorage.getItem("verboLogicStats");
     return savedStats ? JSON.parse(savedStats) : defaultStats;
   }
 
-  // Inicializar estadísticas
-  function initStats() {
-    const stats = getStatsData();
+  // Mostrar estadísticas
+  function mostrarEstadisticas() {
+    // Actualizar estadísticas en el modal
+    const stats = getStats();
 
-    // Actualizar los números de estadísticas
-    const totalJugadosElements = document.querySelectorAll("#total-jugados");
-    const totalGanadosElements = document.querySelectorAll("#total-ganados");
-    const rachaActualElements = document.querySelectorAll("#racha-actual");
-    const mejorRachaElements = document.querySelectorAll("#mejor-racha");
+    document.getElementById("total-jugados").textContent = stats.totalJugados;
+    document.getElementById("total-ganados").textContent = stats.totalGanados;
+    document.getElementById("racha-actual").textContent = stats.rachaActual;
+    document.getElementById("mejor-racha").textContent = stats.mejorRacha;
 
-    totalJugadosElements.forEach((el) => {
-      if (el) el.textContent = stats.totalJugados;
-    });
-    totalGanadosElements.forEach((el) => {
-      if (el) el.textContent = stats.totalGanados;
-    });
-    rachaActualElements.forEach((el) => {
-      if (el) el.textContent = stats.rachaActual;
-    });
-    mejorRachaElements.forEach((el) => {
-      if (el) el.textContent = stats.mejorRacha;
-    });
+    // Generar gráfico de distribución
+    const distributionBars = document.getElementById("distribution-bars");
+    distributionBars.innerHTML = "";
 
-    // Generar gráfico de distribución para todos los contenedores de distribución
-    const distributionBarsContainers =
-      document.querySelectorAll("#distribution-bars");
-    if (distributionBarsContainers.length === 0) return;
+    // Encontrar el valor máximo para escalar las barras
+    const values = Object.values(stats.distribucion);
+    const maxValue = values.length > 0 ? Math.max(...values) : 1;
 
-    distributionBarsContainers.forEach((distributionBars) => {
-      distributionBars.innerHTML = "";
+    for (let i = 1; i <= 6; i++) {
+      const count = stats.distribucion[i] || 0;
+      const percentage = maxValue > 0 ? (count / maxValue) * 100 : 0;
 
-      // Encontrar el valor máximo para escalar las barras
-      const values = Object.values(stats.distribucion);
-      const maxValue = values.length > 0 ? Math.max(...values) : 1;
-
-      for (let i = 1; i <= 6; i++) {
-        const count = stats.distribucion[i] || 0;
-        const percentage = maxValue > 0 ? (count / maxValue) * 100 : 0;
-
-        const barHtml = `
-          <div class="distribution-bar">
-            <div class="bar-label">${i}</div>
-            <div class="bar-container">
-              <div class="bar-fill" style="width: ${percentage}%">
-                ${count > 0 ? `<span class="bar-value">${count}</span>` : ""}
-              </div>
+      const barHtml = `
+        <div class="distribution-bar">
+          <div class="bar-label">${i}</div>
+          <div class="bar-container">
+            <div class="bar-fill" style="width: ${percentage}%">
+              ${count > 0 ? `<span class="bar-value">${count}</span>` : ""}
             </div>
           </div>
-        `;
+        </div>
+      `;
 
-        distributionBars.innerHTML += barHtml;
-      }
+      distributionBars.innerHTML += barHtml;
+    }
 
-      // Animar las barras después de un breve retraso
-      setTimeout(() => {
-        const bars = distributionBars.querySelectorAll(".bar-fill");
-        bars.forEach((bar) => {
-          const width = bar.style.width;
-          bar.style.width = "0%";
-          setTimeout(() => {
-            bar.style.width = width;
-          }, 50);
-        });
-      }, 100);
-    });
+    // Mostrar modal
+    mostrarModal(document.getElementById("modal-estadisticas"));
   }
 
   // Compartir resultado
@@ -811,15 +705,19 @@ document.addEventListener("DOMContentLoaded", async () => {
 
   // Mostrar modal
   function mostrarModal(modal) {
-    if (modal) {
-      modal.classList.add("show");
+    modal.classList.add("show");
+    // Reproducir sonido de apertura de modal
+    if (config.sonidosActivados) {
+      reproducirSonidoModal("abrir");
     }
   }
 
   // Ocultar modal
   function ocultarModal(modal) {
-    if (modal) {
-      modal.classList.remove("show");
+    modal.classList.remove("show");
+    // Reproducir sonido de cierre de modal
+    if (config.sonidosActivados) {
+      reproducirSonidoModal("cerrar");
     }
   }
 
@@ -861,7 +759,6 @@ document.addEventListener("DOMContentLoaded", async () => {
 
   // Reproducir sonido
   function reproducirSonido(tipo) {
-    // Implementación básica - se podría mejorar con archivos de audio reales
     const audioContext = new (window.AudioContext ||
       window.webkitAudioContext)();
     const oscillator = audioContext.createOscillator();
@@ -872,29 +769,145 @@ document.addEventListener("DOMContentLoaded", async () => {
 
     switch (tipo) {
       case "correct":
-        oscillator.frequency.value = 500;
+        oscillator.frequency.value = 600;
         gainNode.gain.value = 0.1;
         oscillator.start();
+        oscillator.frequency.linearRampToValueAtTime(
+          800,
+          audioContext.currentTime + 0.1
+        );
         setTimeout(() => oscillator.stop(), 200);
         break;
       case "present":
-        oscillator.frequency.value = 400;
+        oscillator.frequency.value = 500;
         gainNode.gain.value = 0.1;
         oscillator.start();
+        oscillator.frequency.linearRampToValueAtTime(
+          600,
+          audioContext.currentTime + 0.1
+        );
         setTimeout(() => oscillator.stop(), 150);
         break;
       case "absent":
-        oscillator.frequency.value = 300;
+        oscillator.frequency.value = 350;
         gainNode.gain.value = 0.1;
         oscillator.start();
+        oscillator.frequency.linearRampToValueAtTime(
+          300,
+          audioContext.currentTime + 0.1
+        );
         setTimeout(() => oscillator.stop(), 100);
         break;
       case "error":
-        oscillator.frequency.value = 200;
+        oscillator.frequency.value = 250;
         gainNode.gain.value = 0.1;
         oscillator.start();
+        oscillator.frequency.linearRampToValueAtTime(
+          200,
+          audioContext.currentTime + 0.1
+        );
         setTimeout(() => oscillator.stop(), 300);
         break;
+      case "victoria":
+        // Secuencia de sonidos para victoria
+        oscillator.frequency.value = 500;
+        gainNode.gain.value = 0.1;
+        oscillator.start();
+
+        oscillator.frequency.linearRampToValueAtTime(
+          600,
+          audioContext.currentTime + 0.1
+        );
+        oscillator.frequency.linearRampToValueAtTime(
+          700,
+          audioContext.currentTime + 0.2
+        );
+        oscillator.frequency.linearRampToValueAtTime(
+          800,
+          audioContext.currentTime + 0.3
+        );
+        oscillator.frequency.linearRampToValueAtTime(
+          900,
+          audioContext.currentTime + 0.4
+        );
+
+        setTimeout(() => oscillator.stop(), 500);
+        break;
+      case "derrota":
+        // Secuencia de sonidos para derrota
+        oscillator.frequency.value = 500;
+        gainNode.gain.value = 0.1;
+        oscillator.start();
+
+        oscillator.frequency.linearRampToValueAtTime(
+          400,
+          audioContext.currentTime + 0.1
+        );
+        oscillator.frequency.linearRampToValueAtTime(
+          300,
+          audioContext.currentTime + 0.2
+        );
+        oscillator.frequency.linearRampToValueAtTime(
+          200,
+          audioContext.currentTime + 0.3
+        );
+
+        setTimeout(() => oscillator.stop(), 400);
+        break;
+    }
+  }
+
+  // Añadir función para reproducir sonido de tecla
+  function reproducirSonidoTecla(tipo) {
+    const audioContext = new (window.AudioContext ||
+      window.webkitAudioContext)();
+    const oscillator = audioContext.createOscillator();
+    const gainNode = audioContext.createGain();
+
+    oscillator.connect(gainNode);
+    gainNode.connect(audioContext.destination);
+
+    if (tipo === "tecla") {
+      oscillator.frequency.value = 700;
+      gainNode.gain.value = 0.05;
+      oscillator.start();
+      setTimeout(() => oscillator.stop(), 50);
+    } else if (tipo === "borrar") {
+      oscillator.frequency.value = 500;
+      gainNode.gain.value = 0.05;
+      oscillator.start();
+      setTimeout(() => oscillator.stop(), 70);
+    }
+  }
+
+  // Añadir función para reproducir sonido de modal
+  function reproducirSonidoModal(accion) {
+    const audioContext = new (window.AudioContext ||
+      window.webkitAudioContext)();
+    const oscillator = audioContext.createOscillator();
+    const gainNode = audioContext.createGain();
+
+    oscillator.connect(gainNode);
+    gainNode.connect(audioContext.destination);
+
+    if (accion === "abrir") {
+      oscillator.frequency.value = 400;
+      gainNode.gain.value = 0.1;
+      oscillator.start();
+      oscillator.frequency.linearRampToValueAtTime(
+        600,
+        audioContext.currentTime + 0.2
+      );
+      setTimeout(() => oscillator.stop(), 200);
+    } else if (accion === "cerrar") {
+      oscillator.frequency.value = 600;
+      gainNode.gain.value = 0.1;
+      oscillator.start();
+      oscillator.frequency.linearRampToValueAtTime(
+        400,
+        audioContext.currentTime + 0.2
+      );
+      setTimeout(() => oscillator.stop(), 200);
     }
   }
 
@@ -905,19 +918,5 @@ document.addEventListener("DOMContentLoaded", async () => {
       .padStart(2, "0");
     const segs = (segundos % 60).toString().padStart(2, "0");
     return `${minutos}:${segs}`;
-  }
-
-  // Cambiar tema claro/oscuro
-  function toggleTheme() {
-    const isDarkMode = elements.temaSwitch.checked;
-
-    if (isDarkMode) {
-      document.body.classList.add("dark-mode");
-    } else {
-      document.body.classList.remove("dark-mode");
-    }
-
-    // Guardar preferencia
-    localStorage.setItem("verboLogicTheme", isDarkMode ? "dark" : "light");
   }
 });
