@@ -1,4 +1,4 @@
-# **VERBO LOGIC**
+# **VERBO LOGIC** 🔠
 
 ### Un juego interactivo para desafiar tus habilidades de adivinanza.
 
